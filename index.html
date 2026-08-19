@@ -1,0 +1,2677 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>沈思睿 | 作品集</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"PingFang SC"', '"Microsoft YaHei"', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+            serif: ['"Noto Serif SC"', '"Songti SC"', 'Georgia', 'serif'],
+            mono: ['"SF Mono"', '"Fira Code"', 'monospace'],
+          },
+          colors: {
+            klein: '#002FA7',
+            cream: '#f7f5f0',
+            tan: '#c9a87c',
+            ink: '#111111',
+            paper: '#ffffff',
+          },
+          animation: {
+            'draw': 'draw 1.5s ease-out forwards',
+            'slide-in': 'slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          },
+          keyframes: {
+            draw: {
+              'to': { strokeDashoffset: '0' },
+            },
+            slideIn: {
+              '0%': { opacity: '0', transform: 'translateY(40px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --klein: #002FA7;
+      --cream: #f7f5f0;
+      --tan: #c9a87c;
+      --ink: #111111;
+    }
+    body {
+      background-color: var(--cream);
+      color: var(--ink);
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    }
+    .grid-bg {
+      background-color: #f8f7f4;
+      background-image:
+        radial-gradient(circle at center, rgba(0, 47, 167, 0.10) 0.5px, transparent 0.5px),
+        linear-gradient(to bottom, rgba(0, 47, 167, 0.035) 1px, transparent 1px),
+        linear-gradient(to right, rgba(0, 47, 167, 0.035) 1px, transparent 1px);
+      background-size: 24px 24px, 96px 96px, 96px 96px;
+    }
+    .blueprint-line {
+      stroke: var(--klein);
+      stroke-width: 1;
+      fill: none;
+    }
+    .blueprint-line.thin {
+      stroke-width: 0.6;
+      opacity: 0.35;
+    }
+    .blueprint-line.dashed {
+      stroke-dasharray: 6 6;
+      opacity: 0.25;
+    }
+    .construct-card {
+      position: relative;
+      background: white;
+      border: 1px solid var(--klein);
+    }
+    .tan-block {
+      background: var(--tan);
+      color: white;
+    }
+    .klein-block {
+      background: var(--klein);
+      color: white;
+    }
+    .number-index {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.75rem;
+      color: var(--klein);
+      letter-spacing: 0.05em;
+    }
+    .section-title {
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--stagger-delay, 0s),
+                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--stagger-delay, 0s);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .img-frame {
+      border: 1px solid var(--klein);
+      position: relative;
+    }
+    .img-frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--klein);
+      transform: translate(6px, 6px);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .corner-marker {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border: 1px solid var(--klein);
+    }
+    .corner-marker.tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+    .corner-marker.tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+    .corner-marker.bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
+    .corner-marker.br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+    .nav-link.active { color: var(--klein); font-weight: 700; }
+
+    /* Reading progress bar */
+    .reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: var(--klein);
+      z-index: 60;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    /* Enhanced card hover */
+    .construct-card {
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .construct-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 10px 10px 0 rgba(0, 47, 167, 0.1);
+    }
+    .reveal.active.construct-card:hover {
+      transform: translateY(-6px);
+    }
+
+    /* Magnetic button */
+    .magnetic-btn {
+      position: relative;
+      display: inline-flex;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s, color 0.2s;
+    }
+
+    /* Parallax */
+    .parallax {
+      will-change: transform;
+      transition: transform 0.1s linear;
+    }
+
+    /* Project detail modal */
+    .modal-backdrop {
+      background-color: rgba(17, 17, 17, 0.65);
+      backdrop-filter: blur(4px);
+    }
+    .project-card {
+      cursor: pointer;
+    }
+
+    /* Experience cards hover overlay */
+    #experience .project-card {
+      position: relative;
+      overflow: hidden;
+    }
+    #experience .project-card::after {
+      content: "点击查看";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 47, 167, 0.72);
+      color: #fff;
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      opacity: 0;
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      z-index: 10;
+    }
+    #experience .project-card:hover::after {
+      opacity: 1;
+    }
+
+    /* Vertical timeline layout for experience */
+    .timeline-wrapper { position: relative; --progress: 0; }
+    .timeline-line {
+      position: absolute;
+      left: 2rem;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(0, 47, 167, 0.15);
+    }
+    .timeline-line-fill {
+      position: absolute;
+      left: 2rem;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--klein);
+      transform: scaleY(var(--progress));
+      transform-origin: top;
+      z-index: 5;
+      pointer-events: none;
+    }
+    @media (min-width: 768px) {
+      .timeline-line { left: 50%; transform: translateX(-50%); }
+      .timeline-line-fill { left: 50%; transform: translateX(-50%) scaleY(var(--progress)); }
+    }
+    .timeline-item { position: relative; --tx: 0; }
+    .timeline-content,
+    .timeline-visual {
+      opacity: 0;
+      transform: translateX(var(--tx)) translateY(30px);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .timeline-item.active .timeline-content {
+      opacity: 1;
+      transform: translateX(0) translateY(0);
+      transition-delay: 0.2s;
+    }
+    .timeline-item.active .timeline-visual {
+      opacity: 1;
+      transform: translateX(0) translateY(0);
+      transition-delay: 0.35s;
+    }
+    @media (min-width: 768px) {
+      .timeline-left .timeline-content { --tx: -55px; }
+      .timeline-left .timeline-visual { --tx: 55px; }
+      .timeline-right .timeline-content { --tx: 55px; }
+      .timeline-right .timeline-visual { --tx: -55px; }
+    }
+    .timeline-dot {
+      position: absolute;
+      left: 2rem;
+      top: 1.5rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 9999px;
+      background: var(--cream);
+      border: 1px solid var(--klein);
+      color: var(--klein);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.75rem;
+      font-weight: 900;
+      z-index: 10;
+      transform: translateX(-50%) scale(0);
+      opacity: 0;
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.45s ease 0.1s, background 0.35s ease, color 0.35s ease;
+    }
+    .timeline-item.active .timeline-dot {
+      transform: translateX(-50%) scale(1);
+      opacity: 1;
+      background: var(--klein);
+      color: #fff;
+    }
+    @media (min-width: 768px) {
+      .timeline-dot { left: 50%; transform: translateX(-50%) scale(0); }
+      .timeline-item.active .timeline-dot { transform: translateX(-50%) scale(1); }
+    }
+    .field-note-card {
+      position: relative;
+      background: #fff;
+      border: 1px solid var(--klein);
+      padding: 0.75rem;
+      box-shadow: 8px 8px 0 rgba(0, 47, 167, 0.08);
+      transform: rotate(-1deg);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+    .field-note-card:hover {
+      transform: rotate(0deg) translateY(-4px);
+      box-shadow: 12px 12px 0 rgba(0, 47, 167, 0.12);
+    }
+    .field-note-card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border: 1px solid rgba(0, 47, 167, 0.1);
+    }
+    .field-note-label {
+      position: absolute;
+      top: 1.25rem;
+      left: 1.25rem;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--klein);
+      padding: 0.15rem 0.5rem;
+      font-size: 0.65rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: var(--klein);
+    }
+    .field-note-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.75rem;
+      padding: 0 0.25rem;
+      font-size: 0.75rem;
+    }
+    .field-note-footer .tag {
+      background: var(--klein);
+      color: #fff;
+      padding: 0.2rem 0.6rem;
+      font-weight: 700;
+    }
+    .field-note-footer .hint { color: var(--klein); font-weight: 700; }
+
+    /* Video coverflow carousel */
+    .video-carousel {
+      position: relative;
+      width: 100%;
+      height: 460px;
+      overflow: hidden;
+      cursor: ew-resize;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .video-carousel::before,
+    .video-carousel::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 18%;
+      max-width: 220px;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .video-carousel::before {
+      left: 0;
+      background: linear-gradient(to right, #f9f6f1 0%, rgba(249, 246, 241, 0.95) 40%, rgba(249, 246, 241, 0) 100%);
+    }
+    .video-carousel::after {
+      right: 0;
+      background: linear-gradient(to left, #f9f6f1 0%, rgba(249, 246, 241, 0.95) 40%, rgba(249, 246, 241, 0) 100%);
+    }
+
+    .video-carousel-track {
+      --card-w: 320px;
+      --step: 360px;
+      --active: 3;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 400px;
+      transform: translate(calc(-50% - var(--active) * var(--step)), -50%);
+      transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform;
+    }
+
+    .video-carousel-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: var(--card-w);
+      height: 400px;
+      margin-left: calc(var(--card-w) / -2);
+      margin-top: -200px;
+      background: #fff;
+      border: 1px solid rgba(0, 47, 167, 0.16);
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(calc(var(--i) * var(--step))) scale(0.68);
+      opacity: 0.3;
+      z-index: 1;
+      transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.55s ease, z-index 0s, box-shadow 0.45s ease, border-color 0.35s ease;
+      box-shadow: 0 8px 24px rgba(0, 47, 167, 0.07);
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+    }
+    .video-carousel-card.edge {
+      transform: translateX(calc(var(--i) * var(--step))) scale(0.76);
+      opacity: 0.5;
+      z-index: 2;
+    }
+    .video-carousel-card.near {
+      transform: translateX(calc(var(--i) * var(--step))) scale(0.88);
+      opacity: 0.8;
+      z-index: 4;
+      box-shadow: 0 14px 36px rgba(0, 47, 167, 0.11);
+    }
+    .video-carousel-card.active {
+      transform: translateX(calc(var(--i) * var(--step))) scale(1);
+      opacity: 1;
+      z-index: 6;
+      border-color: var(--klein);
+      box-shadow: 0 26px 64px rgba(0, 47, 167, 0.2);
+    }
+    .video-carousel-card.hidden {
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .video-carousel-media {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: linear-gradient(135deg, #f0eee9 0%, #e5e2da 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .video-carousel-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .video-carousel-card.active .video-carousel-media img {
+      transform: scale(1.05);
+    }
+
+    .video-carousel-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 1rem 1.15rem;
+      background: #fff;
+      border-top: 1px solid rgba(0, 47, 167, 0.12);
+      min-height: 0;
+    }
+    .video-carousel-info .number-index {
+      display: inline-flex;
+      align-self: flex-start;
+      background: var(--klein);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      padding: 0.22rem 0.55rem;
+      margin-bottom: 0.5rem;
+    }
+    .video-carousel-info h4 {
+      font-size: 1.08rem;
+      font-weight: 900;
+      color: var(--ink);
+      margin: 0 0 0.35rem;
+      line-height: 1.35;
+    }
+    .video-carousel-info .meta {
+      font-size: 0.78rem;
+      color: rgba(26, 26, 46, 0.6);
+      margin: 0 0 0.55rem;
+      line-height: 1.4;
+      font-weight: 600;
+    }
+    .video-carousel-info .desc {
+      font-size: 0.82rem;
+      color: rgba(26, 26, 46, 0.82);
+      margin: 0;
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .video-carousel-card.active .video-carousel-info .desc {
+      -webkit-line-clamp: 4;
+    }
+
+    .video-carousel-card::after {
+      content: "查看详情 \2192";
+      position: absolute;
+      top: 0.8rem;
+      right: 0.8rem;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--klein);
+      color: var(--klein);
+      font-size: 0.62rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      padding: 0.28rem 0.6rem;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .video-carousel-card.active::after,
+    .video-carousel-card.near::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .video-carousel { height: 400px; }
+      .video-carousel-track { --card-w: 270px; --step: 300px; height: 340px; }
+      .video-carousel-card {
+        height: 340px;
+        margin-left: calc(var(--card-w) / -2);
+        margin-top: -170px;
+      }
+      .video-carousel-info { padding: 0.85rem 0.95rem; }
+      .video-carousel-info h4 { font-size: 0.92rem; }
+      .video-carousel-info .meta { font-size: 0.72rem; margin-bottom: 0.45rem; }
+      .video-carousel-info .desc { font-size: 0.75rem; -webkit-line-clamp: 3; }
+    }
+
+    /* Modal project sections */
+    .modal-sections {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    @media (min-width: 768px) {
+      .modal-sections {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .modal-section {
+      border: 1px solid rgba(0, 47, 167, 0.15);
+      padding: 1.25rem;
+      background: rgba(244, 242, 237, 0.5);
+    }
+    .modal-section h5 {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--klein);
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+    .modal-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .modal-section li {
+      position: relative;
+      padding-left: 1rem;
+      margin-bottom: 0.4rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--ink);
+      opacity: 0.85;
+    }
+    .modal-section li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--klein);
+      font-weight: 700;
+    }
+
+    .modal-open {
+      overflow: hidden;
+    }
+
+    /* Hero entrance animation */
+    .hero-entrance {
+      opacity: 0;
+      transform: translateY(40px);
+      animation: heroIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation-delay: var(--delay, 0s);
+    }
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-line {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: drawLine 2s ease-out forwards;
+      animation-delay: var(--delay, 0s);
+    }
+    @keyframes drawLine {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* 3D tilt card */
+    .tilt-card {
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+    .tilt-card-inner {
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .tilt-card-glare {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 70%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+      border-radius: inherit;
+      z-index: 2;
+    }
+    .tilt-card:hover .tilt-card-glare {
+      opacity: 1;
+    }
+
+    /* Blueprint hero decorative elements */
+    .hero-blueprint {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .hero-blueprint svg {
+      width: 100%;
+      height: 100%;
+    }
+    .hero-marker {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 10px;
+      fill: rgba(0, 47, 167, 0.35);
+    }
+    .animal-outline {
+      fill: none;
+      stroke: var(--klein);
+      stroke-width: 1.2;
+      opacity: 0.55;
+    }
+
+    /* Stagger reveal for card groups */
+    .stagger-group {
+      --stagger-base: 0.08s;
+    }
+    .stagger-group .reveal {
+      transition-delay: var(--stagger-delay, 0s);
+    }
+
+    /* About profile — frameless layered layout */
+    .about-profile {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) {
+      .about-profile {
+        grid-template-columns: 5fr 7fr;
+        min-height: 520px;
+      }
+    }
+    .about-profile-photo {
+      position: relative;
+      background: linear-gradient(135deg, rgba(0,47,167,0.06) 0%, rgba(201,168,124,0.08) 100%);
+    }
+    .about-profile-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .about-profile-text {
+      position: relative;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(0,47,167,0.06) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(201,168,124,0.10) 0%, transparent 45%),
+        #f4f2ed;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .about-profile-text::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to bottom, rgba(0, 47, 167, 0.04) 1px, transparent 1px),
+        linear-gradient(to right, rgba(0, 47, 167, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+    .photo-offset-border {
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--klein);
+      transform: translate(10px, 10px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .photo-caption {
+      position: absolute;
+      bottom: -1px;
+      left: -1px;
+      background: var(--klein);
+      color: white;
+      padding: 0.35rem 0.75rem;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      z-index: 20;
+    }
+    .about-profile-connector {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--klein) 15%, var(--klein) 85%, transparent 100%);
+      opacity: 0.2;
+      pointer-events: none;
+      z-index: 5;
+      transform: translateY(-50%);
+    }
+
+    /* Tool badges with inline logos */
+    .tool-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem 0.35rem 0.35rem;
+      border: 1px solid rgba(0, 47, 167, 0.14);
+      background: rgba(255, 255, 255, 0.42);
+      backdrop-filter: blur(4px);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--ink);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .tool-badge:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.65);
+    }
+    .tool-icon {
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 800;
+      line-height: 1;
+      flex-shrink: 0;
+      font-family: "SF Mono", "Fira Code", monospace;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+    .tool-icon svg {
+      width: 0.85rem;
+      height: 0.85rem;
+    }
+    .tool-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: inherit;
+    }
+
+    /* Skill category blocks */
+    .skill-groups {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 640px) {
+      .skill-groups {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 1024px) {
+      .skill-groups {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    .skill-group {
+      position: relative;
+      padding: 1.5rem 1.25rem 1.25rem;
+      border: 1px solid rgba(0, 47, 167, 0.12);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+    }
+    .skill-group:hover {
+      transform: translateY(-4px);
+      box-shadow: 8px 8px 0 rgba(0, 47, 167, 0.08);
+    }
+    .skill-group::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--group-color, var(--klein));
+    }
+    .skill-group-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px dashed rgba(0, 47, 167, 0.12);
+    }
+    .skill-group-icon {
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      background: var(--group-color, var(--klein));
+      color: white;
+      flex-shrink: 0;
+    }
+    .skill-group-icon svg {
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+    .skill-group-title {
+      font-size: 1.05rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .skill-group-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .skill-group .tool-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.75rem 0.35rem 0.35rem;
+      border: 1px solid rgba(0, 47, 167, 0.1);
+      background: rgba(255, 255, 255, 0.6);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--ink);
+      white-space: nowrap;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .skill-group .tool-badge:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.9);
+    }
+    .skill-group .tool-badge span:last-child {
+      white-space: nowrap;
+    }
+    /* Group color themes */
+    .skill-group.edit {
+      background: linear-gradient(180deg, rgba(0, 47, 167, 0.06) 0%, transparent 100%);
+      --group-color: var(--klein);
+    }
+    .skill-group.design {
+      background: linear-gradient(180deg, rgba(201, 168, 124, 0.14) 0%, transparent 100%);
+      --group-color: var(--tan);
+    }
+    .skill-group.office {
+      background: linear-gradient(180deg, rgba(247, 245, 240, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%);
+      --group-color: rgba(0, 47, 167, 0.45);
+    }
+    .skill-group.aigc {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+      --group-color: #764ba2;
+    }
+
+    /* Hero — high-impact Klein blue cover */
+    .hero-section {
+      background-color: var(--klein);
+      color: var(--cream);
+      position: relative;
+      isolation: isolate;
+      z-index: 10;
+    }
+    .hero-section .number-index {
+      color: rgba(247, 245, 240, 0.7);
+    }
+    .hero-section .blueprint-line {
+      stroke: rgba(247, 245, 240, 0.35);
+    }
+    .hero-section .blueprint-line.thin {
+      opacity: 0.45;
+    }
+    .hero-section .hero-marker {
+      fill: rgba(247, 245, 240, 0.6);
+    }
+    .hero-section .animal-outline {
+      stroke: rgba(247, 245, 240, 0.45);
+    }
+    .hero-section .text-ink,
+    .hero-section .text-klein {
+      color: var(--cream);
+    }
+    .hero-section .bg-cream {
+      color: var(--klein);
+    }
+    .hero-section .tilt-card .text-ink {
+      color: var(--ink);
+    }
+    .hero-section .tilt-card .text-klein,
+    .hero-section .tilt-card .number-index {
+      color: var(--klein);
+    }
+
+    /* ===== Color-block drag transition: hero → content ===== */
+    .hero-transition {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: clamp(160px, 22vh, 280px);
+      z-index: 20;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .drag-layer {
+      position: absolute;
+      left: -10%;
+      width: 120%;
+      height: 100%;
+      transform-origin: center bottom;
+      will-change: transform;
+    }
+    .drag-cream {
+      bottom: 0;
+      background: var(--cream);
+      transform: translateY(100%) skewY(-2deg);
+      animation: dragCreamUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+      box-shadow: 0 -20px 60px rgba(0, 47, 167, 0.15);
+    }
+    .drag-klein {
+      bottom: 0;
+      background: var(--klein);
+      transform: translateY(100%);
+      animation: dragKleinUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+      opacity: 0.35;
+    }
+    .drag-tan {
+      bottom: 0;
+      background: var(--tan);
+      transform: translateY(100%) skewY(3deg);
+      animation: dragTanUp 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+      opacity: 0.22;
+    }
+    @keyframes dragCreamUp {
+      from { transform: translateY(100%) skewY(-2deg); }
+      to   { transform: translateY(0) skewY(0deg); }
+    }
+    @keyframes dragKleinUp {
+      0%   { transform: translateY(100%); }
+      60%  { transform: translateY(-18%); }
+      100% { transform: translateY(-6%); }
+    }
+    @keyframes dragTanUp {
+      0%   { transform: translateY(100%) skewY(3deg); }
+      50%  { transform: translateY(-22%) skewY(1deg); }
+      100% { transform: translateY(-10%) skewY(0deg); }
+    }
+    .drag-lines {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .drag-line {
+      position: absolute;
+      left: -10%;
+      width: 120%;
+      height: 1px;
+      background: rgba(0, 47, 167, 0.12);
+      transform: scaleX(0);
+      transform-origin: left center;
+      animation: dragLineReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .drag-line:nth-child(1) { top: 18%; animation-delay: 1.0s; }
+    .drag-line:nth-child(2) { top: 38%; animation-delay: 1.15s; background: rgba(0, 47, 167, 0.18); }
+    .drag-line:nth-child(3) { top: 62%; animation-delay: 1.05s; background: rgba(0, 47, 167, 0.10); }
+    .drag-line:nth-child(4) { top: 82%; animation-delay: 1.25s; background: rgba(201, 168, 124, 0.35); }
+    @keyframes dragLineReveal {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+    .drag-marker {
+      position: absolute;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: rgba(0, 47, 167, 0.35);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: markerPop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .drag-marker.m1 { left: 8%; top: 25%; animation-delay: 1.3s; }
+    .drag-marker.m2 { right: 12%; top: 55%; animation-delay: 1.45s; }
+    .drag-marker.m3 { left: 18%; top: 78%; animation-delay: 1.55s; }
+    @keyframes markerPop {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .drag-circles {
+      position: absolute;
+      inset: 0;
+    }
+    .drag-circle {
+      position: absolute;
+      border: 1px solid rgba(0, 47, 167, 0.15);
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.6);
+      animation: circlePop 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .drag-circle.c1 { width: 120px; height: 120px; right: 10%; top: 15%; animation-delay: 1.2s; }
+    .drag-circle.c2 { width: 60px; height: 60px; left: 15%; top: 45%; animation-delay: 1.4s; border-color: rgba(201, 168, 124, 0.4); }
+    .drag-circle.c3 { width: 90px; height: 90px; right: 22%; bottom: 10%; animation-delay: 1.35s; }
+    @keyframes circlePop {
+      from { opacity: 0; transform: scale(0.6); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    /* Subtle scroll-driven parallax on the transition layers */
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-transition.is-scrolled .drag-cream { transform: translateY(calc(var(--scroll-parallax, 0) * -1px)); }
+      .hero-transition.is-scrolled .drag-klein { transform: translateY(calc(var(--scroll-parallax, 0) * -1.6px - 6%)); }
+      .hero-transition.is-scrolled .drag-tan { transform: translateY(calc(var(--scroll-parallax, 0) * -0.8px - 10%)); }
+    }
+
+    /* Mobile scale-down: keep desktop intact */
+    @media (max-width: 767px) {
+      html { font-size: 14px; }
+      section { padding-top: 4rem; padding-bottom: 4rem; }
+      .max-w-7xl { padding-left: 1rem; padding-right: 1rem; }
+
+      .hero-section h1 { font-size: 3.5rem; }
+      .hero-section h2 { font-size: 2rem; }
+      .hero-section p.text-3xl { font-size: 1.5rem; }
+      .hero-section .text-sm.md\\:text-base { font-size: 0.8rem; }
+      .hero-section .grid.grid-cols-3.gap-4 { gap: 0.5rem; }
+      .hero-section .grid.grid-cols-3 > div { padding: 0.75rem; }
+      .hero-section .grid.grid-cols-3 p.text-2xl { font-size: 1.25rem; }
+
+      section .text-6xl { font-size: 2.5rem; }
+      section .text-5xl { font-size: 2rem; }
+      section h2,
+      .section-title { font-size: 2.25rem !important; }
+      section h3.text-3xl { font-size: 1.5rem; }
+      section h3.text-2xl,
+      .construct-card h3 { font-size: 1.25rem; }
+      section h4.text-xl,
+      .construct-card h4 { font-size: 1.05rem; }
+
+      .construct-card,
+      .project-card { padding: 1.25rem; }
+      .construct-card .p-8,
+      .about-profile-text { padding: 1.25rem; }
+
+      #experience .project-card h3,
+      #experience .construct-card h3 { font-size: 1.5rem; }
+      #experience .project-card p.text-xl { font-size: 1rem; }
+      #experience .grid.md\\:grid-cols-12.gap-8 { gap: 1rem; }
+
+      .skill-group { padding: 1rem; }
+      .skill-group-icon { width: 1.75rem; height: 1.75rem; }
+      .skill-group-title { font-size: 0.95rem; }
+      .skill-group .tool-badge { font-size: 0.75rem; }
+      .tool-icon { width: 1.4rem; height: 1.4rem; }
+
+      .modal-section { padding: 1rem; }
+      .modal-section h5 { font-size: 0.95rem; }
+      .modal-section li { font-size: 0.85rem; }
+      #projectModal h3 { font-size: 1.5rem; }
+      #projectModal .absolute.inset-3.md\\:inset-8 { inset: 0.75rem; }
+    }
+  </style>
+</head>
+<body class="antialiased grid-bg">
+
+  <!-- Blueprint decorative overlay -->
+  <svg class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-40" preserveAspectRatio="none">
+    <!-- Outer border frame -->
+    <rect x="2%" y="2%" width="96%" height="96%" class="blueprint-line thin" />
+    <rect x="4%" y="4%" width="92%" height="92%" class="blueprint-line dashed" />
+
+    <!-- Central vertical axis -->
+    <line x1="50%" y1="0" x2="50%" y2="100%" class="blueprint-line" />
+    <!-- Central horizontal axis -->
+    <line x1="0" y1="50%" x2="100%" y2="50%" class="blueprint-line" />
+
+    <!-- Construction guide lines -->
+    <line x1="25%" y1="0" x2="25%" y2="100%" class="blueprint-line thin" />
+    <line x1="75%" y1="0" x2="75%" y2="100%" class="blueprint-line thin" />
+    <line x1="0" y1="25%" x2="100%" y2="25%" class="blueprint-line thin" />
+    <line x1="0" y1="75%" x2="100%" y2="75%" class="blueprint-line thin" />
+
+    <!-- Diagonal construction lines -->
+    <line x1="0" y1="0" x2="100%" y2="100%" class="blueprint-line dashed" />
+    <line x1="100%" y1="0" x2="0" y2="100%" class="blueprint-line dashed" />
+
+    <!-- Corner brackets -->
+    <polyline points="6%,8% 4%,8% 4%,6%" class="blueprint-line" />
+    <polyline points="94%,8% 96%,8% 96%,6%" class="blueprint-line" />
+    <polyline points="6%,92% 4%,92% 4%,94%" class="blueprint-line" />
+    <polyline points="94%,92% 96%,92% 96%,94%" class="blueprint-line" />
+
+    <!-- Axis tick marks -->
+    <line x1="48.8%" y1="10%" x2="51.2%" y2="10%" class="blueprint-line thin" />
+    <line x1="48.8%" y1="30%" x2="51.2%" y2="30%" class="blueprint-line thin" />
+    <line x1="48.8%" y1="70%" x2="51.2%" y2="70%" class="blueprint-line thin" />
+    <line x1="48.8%" y1="90%" x2="51.2%" y2="90%" class="blueprint-line thin" />
+    <line x1="10%" y1="48.8%" x2="10%" y2="51.2%" class="blueprint-line thin" />
+    <line x1="30%" y1="48.8%" x2="30%" y2="51.2%" class="blueprint-line thin" />
+    <line x1="70%" y1="48.8%" x2="70%" y2="51.2%" class="blueprint-line thin" />
+    <line x1="90%" y1="48.8%" x2="90%" y2="51.2%" class="blueprint-line thin" />
+
+    <!-- Small coordinate labels -->
+    <text x="50.5%" y="49%" class="blueprint-text" font-size="10" font-family="SF Mono, Fira Code, monospace" fill="rgba(0,47,167,0.35)">0</text>
+    <text x="26%" y="49%" class="blueprint-text" font-size="9" font-family="SF Mono, Fira Code, monospace" fill="rgba(0,47,167,0.3)">-1</text>
+    <text x="75.5%" y="49%" class="blueprint-text" font-size="9" font-family="SF Mono, Fira Code, monospace" fill="rgba(0,47,167,0.3)">1</text>
+  </svg>
+
+  <!-- Reading progress -->
+  <div class="reading-progress" id="readingProgress"></div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-cream/90 backdrop-blur-sm border-b border-klein/20">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#hero" class="text-xl font-black tracking-tighter text-klein">SIRUI.S</a>
+      <button id="menuBtn" class="md:hidden text-ink hover:text-klein">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+      </button>
+      <div id="navLinks" class="hidden md:flex items-center gap-10 text-sm font-medium text-ink/80">
+        <a href="#about" class="nav-link hover:text-klein transition">01 关于我</a>
+        <a href="#experience" class="nav-link hover:text-klein transition">02 实习经历</a>
+        <a href="#social" class="nav-link hover:text-klein transition">03 账号运营</a>
+        <a href="#campus" class="nav-link hover:text-klein transition">04 在校经历</a>
+        <a href="#works" class="nav-link hover:text-klein transition">05 作品展示</a>
+        <a href="#contact" class="px-5 py-2 bg-klein text-white text-xs font-bold tracking-widest hover:bg-ink transition">CONTACT</a>
+      </div>
+    </div>
+    <div id="mobileMenu" class="hidden md:hidden px-6 pb-4 border-t border-klein/20 bg-cream">
+      <a href="#about" class="block py-3 text-ink hover:text-klein">01 关于我</a>
+      <a href="#experience" class="block py-3 text-ink hover:text-klein">02 实习经历</a>
+      <a href="#social" class="block py-3 text-ink hover:text-klein">03 账号运营</a>
+      <a href="#campus" class="block py-3 text-ink hover:text-klein">04 在校经历</a>
+      <a href="#works" class="block py-3 text-ink hover:text-klein">05 作品展示</a>
+      <a href="#contact" class="block py-3 text-klein font-bold">CONTACT</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero" class="hero-section min-h-screen flex items-center pt-20 overflow-hidden">
+    <!-- Hero-specific blueprint composition -->
+    <div class="hero-blueprint opacity-60">
+      <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+        <!-- Base grid -->
+        <defs>
+          <pattern id="heroGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(247,245,240,0.25)" stroke-width="0.4" opacity="0.18"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#heroGrid)" />
+
+        <!-- Construction circles left -->
+        <circle cx="180" cy="400" r="120" class="blueprint-line thin hero-line" style="--delay:0.6s" />
+        <circle cx="180" cy="400" r="80" class="blueprint-line thin hero-line" style="--delay:0.7s" />
+        <circle cx="180" cy="400" r="40" class="blueprint-line hero-line" style="--delay:0.8s" />
+        <line x1="180" y1="100" x2="180" y2="700" class="blueprint-line thin hero-line" style="--delay:0.5s" />
+        <line x1="80" y1="400" x2="280" y2="400" class="blueprint-line thin hero-line" style="--delay:0.5s" />
+        <text x="188" y="395" class="hero-marker">0</text>
+        <text x="120" y="395" class="hero-marker">-1</text>
+        <text x="240" y="395" class="hero-marker">1</text>
+
+        <!-- Cross markers -->
+        <g transform="translate(180,400)">
+          <line x1="-8" y1="0" x2="8" y2="0" class="blueprint-line" />
+          <line x1="0" y1="-8" x2="0" y2="8" class="blueprint-line" />
+        </g>
+        <g transform="translate(900,260)">
+          <line x1="-8" y1="0" x2="8" y2="0" class="blueprint-line" />
+          <line x1="0" y1="-8" x2="0" y2="8" class="blueprint-line" />
+        </g>
+
+        <!-- Connecting construction lines -->
+        <line x1="180" y1="400" x2="540" y2="400" class="blueprint-line dashed hero-line" style="--delay:0.9s" />
+        <line x1="900" y1="260" x2="540" y2="400" class="blueprint-line dashed hero-line" style="--delay:1s" />
+        <line x1="900" y1="540" x2="540" y2="400" class="blueprint-line dashed hero-line" style="--delay:1.1s" />
+
+        <!-- Central connection node -->
+        <circle cx="540" cy="400" r="14" class="blueprint-line hero-line" style="--delay:1.2s" />
+        <circle cx="540" cy="400" r="6" fill="rgba(247,245,240,0.9)" opacity="0.8" />
+
+        <!-- Decorative blueprint circle -->
+        <circle cx="540" cy="400" r="90" class="blueprint-line thin hero-line" style="--delay:0.7s" />
+        <circle cx="540" cy="400" r="60" class="blueprint-line thin hero-line" style="--delay:0.8s" />
+
+        <!-- Animal silhouettes -->
+        <g transform="translate(650,520)" class="animal-outline">
+          <!-- Giraffe -->
+          <path d="M20,110 Q30,90 35,70 L38,40 Q40,30 50,28 Q58,30 55,40 L52,70 Q55,90 65,110 L55,115 L45,110 L35,115 Z M42,25 L46,15 L50,25 Z" />
+          <circle cx="48" cy="34" r="2" />
+        </g>
+        <g transform="translate(740,540)" class="animal-outline">
+          <!-- Bear -->
+          <path d="M10,30 Q15,15 30,18 Q40,10 55,18 Q70,15 75,30 Q85,35 82,55 Q78,70 60,72 L25,72 Q8,70 5,55 Q2,35 10,30 Z M22,22 Q18,18 22,14 Q26,10 30,14 Q32,18 28,22 Z M58,22 Q54,18 58,14 Q62,10 66,14 Q68,18 64,22 Z" />
+        </g>
+        <g transform="translate(820,550)" class="animal-outline">
+          <!-- Small deer/dog -->
+          <path d="M5,40 Q8,25 22,28 Q30,20 42,28 Q55,25 58,40 Q62,50 55,62 L40,62 L38,75 L42,80 L34,80 L36,62 L25,62 L22,75 L26,80 L18,80 L20,62 Q5,58 5,40 Z" />
+        </g>
+
+        <!-- Geometric annotations -->
+        <text x="560" y="390" class="hero-marker">A1</text>
+        <text x="740" y="250" class="hero-marker">A2</text>
+        <text x="760" y="560" class="hero-marker">A3</text>
+        <text x="1080" y="720" class="hero-marker" font-size="14">FIG.01</text>
+      </svg>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 w-full relative z-10 pb-24">
+      <div class="grid md:grid-cols-12 gap-8 items-center min-h-[85vh]">
+        <!-- Left text -->
+        <div class="md:col-span-6 lg:col-span-5">
+          <div class="hero-entrance mb-8" style="--delay:0.1s">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-cream text-klein flex items-center justify-center text-xl font-black">S</div>
+              <div class="h-px flex-1 bg-cream/50"></div>
+              <span class="number-index">PORTFOLIO 2026</span>
+            </div>
+          </div>
+
+          <div class="hero-entrance" style="--delay:0.2s">
+            <span class="text-sm md:text-base font-bold tracking-[0.3em] text-cream/70 uppercase">Selected Works</span>
+            <h1 class="text-7xl md:text-9xl font-black tracking-tighter text-cream leading-[0.9] mt-2">
+              作品集
+            </h1>
+          </div>
+
+          <div class="hero-entrance mt-4" style="--delay:0.35s">
+            <h2 class="text-4xl md:text-6xl font-black tracking-tighter text-cream/80">
+              Portfolio
+            </h2>
+          </div>
+
+          <div class="hero-entrance mt-6" style="--delay:0.5s">
+            <p class="text-3xl md:text-4xl font-black text-cream">沈思睿</p>
+          </div>
+
+          <div class="hero-entrance mt-8 max-w-md" style="--delay:0.65s">
+            <p class="text-cream/70 leading-relaxed">
+              硕士就读于中国传媒大学，擅长社媒运营、活动策划、视频剪辑与视觉设计，对 Z 世代内容生态与潮流文化有敏锐嗅觉。
+            </p>
+          </div>
+
+          <div class="hero-entrance flex flex-wrap gap-4 mt-10" style="--delay:0.8s">
+            <a href="#experience" class="magnetic-btn px-8 py-3 bg-cream text-klein font-bold tracking-widest hover:bg-white transition">查看经历 →</a>
+            <a href="#contact" class="magnetic-btn px-8 py-3 border-2 border-cream text-cream font-bold tracking-widest hover:bg-cream hover:text-klein transition">联系我</a>
+          </div>
+        </div>
+
+        <!-- Right 3D card -->
+        <div class="md:col-span-6 lg:col-span-7 flex justify-center md:justify-end hero-entrance" style="--delay:0.45s">
+          <div class="tilt-card w-full max-w-lg" id="heroTiltCard">
+            <div class="tilt-card-inner construct-card p-3 bg-white/80 backdrop-blur-sm relative overflow-hidden">
+              <div class="tilt-card-glare"></div>
+              <div class="img-frame">
+                <div class="overflow-hidden aspect-[4/3] bg-cream relative">
+                  <img src="images/hero-cover-blueprint.png" alt="Blueprint cover illustration" class="w-full h-full object-cover parallax" />
+                </div>
+              </div>
+              <div class="mt-3 flex justify-between items-center px-1">
+                <span class="number-index">FIG.01</span>
+                <span class="text-xs text-ink/50">Blueprint Composition</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom stats row -->
+      <div class="grid grid-cols-3 gap-4 max-w-2xl mx-auto md:mx-0 mt-12 md:mt-0 md:absolute md:bottom-28 md:left-6 lg:left-auto lg:right-6 hero-entrance z-30" style="--delay:1s">
+        <div class="border border-cream/30 p-4 text-center bg-cream/10 backdrop-blur-sm">
+          <p class="text-2xl font-black text-cream">4+</p>
+          <p class="text-xs text-cream/70">段实习经历</p>
+        </div>
+        <div class="border border-cream/30 p-4 text-center bg-cream/10 backdrop-blur-sm">
+          <p class="text-2xl font-black text-cream">6+</p>
+          <p class="text-xs text-cream/70">年运营经验</p>
+        </div>
+        <div class="border border-cream/30 p-4 text-center bg-cream/10 backdrop-blur-sm">
+          <p class="text-2xl font-black text-cream">400+</p>
+          <p class="text-xs text-cream/70">篇推文</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Color-block drag transition: hero → content -->
+    <div class="hero-transition" id="heroTransition">
+      <div class="drag-layer drag-klein"></div>
+      <div class="drag-layer drag-tan"></div>
+      <div class="drag-layer drag-cream"></div>
+      <div class="drag-lines">
+        <div class="drag-line"></div>
+        <div class="drag-line"></div>
+        <div class="drag-line"></div>
+        <div class="drag-line"></div>
+      </div>
+      <div class="drag-circles">
+        <div class="drag-circle c1"></div>
+        <div class="drag-circle c2"></div>
+        <div class="drag-circle c3"></div>
+      </div>
+      <div class="drag-marker m1">SEC.01 → SEC.02</div>
+      <div class="drag-marker m2">SCROLL</div>
+      <div class="drag-marker m3">01 / 02</div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="py-28 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-end gap-6 mb-16 reveal">
+        <span class="text-6xl font-black text-klein/10">01</span>
+        <div>
+          <p class="number-index mb-2">ABOUT ME</p>
+          <h2 class="text-4xl md:text-6xl section-title text-ink">关于我</h2>
+        </div>
+        <div class="h-px flex-1 bg-klein/20 mb-4"></div>
+      </div>
+
+      <!-- Profile photo & self-evaluation -->
+      <div class="about-profile mb-6 reveal">
+        <div class="about-profile-photo">
+          <img src="images/hero.png" alt="沈思睿" />
+          <div class="photo-offset-border"></div>
+          <div class="photo-caption">FIG.00 — Shen Sirui</div>
+        </div>
+        <div class="about-profile-text p-8 md:p-12">
+          <div class="about-profile-connector"></div>
+          <div class="relative z-10">
+            <h3 class="text-2xl font-black mb-6">自我评价</h3>
+            <p class="text-ink/70 leading-relaxed text-lg mb-8">
+              广播电视编导专业，冲浪达人，自我学习和适应能力强，心态好，超级能抗压。兴趣广泛，涵盖 Kpop、游戏、美剧、小说与动漫，对年轻潮流圈层文化有深入理解，擅长将兴趣转化为内容创作的灵感来源。
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-4 py-2 border border-klein text-klein text-sm font-bold">雅思 6.5 / 英语四六级均550+</span>
+              <span class="px-4 py-2 bg-tan text-white text-sm font-bold">饭圈 / 二次元 / 游戏 / 潮玩 / Kpop / 小说</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-12 gap-6">
+        <div class="md:col-span-7 construct-card p-8 reveal">
+          <div class="corner-marker tl"></div><div class="corner-marker tr"></div>
+          <div class="corner-marker bl"></div><div class="corner-marker br"></div>
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-klein text-white flex items-center justify-center font-black">ED</div>
+            <h3 class="text-2xl font-black">教育背景</h3>
+          </div>
+          <div class="space-y-6">
+            <div class="flex justify-between items-start border-b border-klein/10 pb-4">
+              <div>
+                <p class="text-xs text-ink/50 mb-1">2025.9 — 至今</p>
+                <p class="text-xl font-bold text-ink">中国传媒大学</p>
+                <p class="text-ink/60">电视学院 · 广播电视编导 · 硕士</p>
+                <p class="text-sm text-ink/70 mt-2 leading-relaxed">主修课程：智能媒体创作、受众分析、专业创作基础、摄影基础、人工智能、人工智能安全与伦理等。</p>
+              </div>
+              <span class="tan-block px-3 py-1 text-xs font-bold whitespace-nowrap">在读</span>
+            </div>
+            <div class="flex justify-between items-start">
+              <div>
+                <p class="text-xs text-ink/50 mb-1">2021.9 — 2025.6</p>
+                <p class="text-xl font-bold text-ink">重庆大学</p>
+                <p class="text-ink/60">美视电影学院 · 广播电视编导 · 本科</p>
+                <p class="text-sm text-ink/70 mt-2 leading-relaxed">主修课程：媒介研究导论、媒体创意与营销、电视类型节目制作、电视文案写作、剪辑：理论与实践等。</p>
+              </div>
+              <div class="text-xs text-ink/50 border border-klein/20 px-3 py-1 text-right">
+                <span class="block whitespace-nowrap">专业排名 3/60</span>
+                <span class="block whitespace-nowrap">绩点 3.85</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="md:col-span-5 construct-card p-8 reveal" style="transition-delay: 0.1s">
+          <div class="corner-marker tl"></div><div class="corner-marker tr"></div>
+          <div class="corner-marker bl"></div><div class="corner-marker br"></div>
+          <h3 class="text-2xl font-black mb-6">专业技能</h3>
+          <div class="space-y-5">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 border border-klein flex items-center justify-center text-klein shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 21l-5-3H7a2 2 0 01-2-2V8a2 2 0 012-2h4l5-3v18z"/></svg>
+              </div>
+              <div>
+                <h4 class="font-bold text-ink">社媒运营</h4>
+                <p class="text-sm text-ink/60">官方账号运营、内容策划、数据分析与爆款逻辑拆解</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 border border-klein flex items-center justify-center text-klein shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l5-3v12l-5-3H5a2 2 0 01-2-2V10a2 2 0 012-2h10z"/></svg>
+              </div>
+              <div>
+                <h4 class="font-bold text-ink">剪辑拍摄</h4>
+                <p class="text-sm text-ink/60">短视频、纪录片全流程制作，熟练使用 AE / PR / 剪映</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 border border-klein flex items-center justify-center text-klein shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16v14H4z M4 10h16 M8 4v4 M16 4v4"/></svg>
+              </div>
+              <div>
+                <h4 class="font-bold text-ink">活动策划</h4>
+                <p class="text-sm text-ink/60">线上线下活动落地、达人对接、物料与执行统筹</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 border border-klein flex items-center justify-center text-klein shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20h9 M13 5l7 7-9 9H4v-7l9-9z"/></svg>
+              </div>
+              <div>
+                <h4 class="font-bold text-ink">美工文案</h4>
+                <p class="text-sm text-ink/60">视觉设计、海报与周边物料、公众号及小红书文案撰写</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience" class="py-28 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 reveal">
+        <p class="number-index mb-3">02 / THE PRACTITIONER</p>
+        <h2 class="text-4xl md:text-6xl section-title text-ink mb-4">我在真实现场做过什么</h2>
+        <p class="text-ink/60 max-w-2xl mx-auto">三段实习经历，覆盖互联网增长运营、食品快消整合营销与企业公共传播。</p>
+      </div>
+
+      <div class="timeline-wrapper max-w-6xl mx-auto">
+        <div class="timeline-line"></div>
+        <div class="timeline-line-fill"></div>
+
+        <!-- 01 阿里巴巴虎鲸文娱 -->
+        <div class="timeline-item timeline-left flex flex-col md:flex-row gap-8 mb-16 pl-14 md:pl-0 reveal" style="transition-delay: 0.1s">
+          <div class="timeline-dot">01</div>
+          <div class="timeline-content w-full md:w-1/2 md:pr-12">
+            <div class="construct-card project-card p-8 h-full flex flex-col justify-center" data-project-id="damai">
+              <div class="corner-marker tl"></div><div class="corner-marker tr"></div>
+              <div class="corner-marker bl"></div><div class="corner-marker br"></div>
+              <div class="flex items-center gap-3 mb-4">
+                <span class="tan-block px-3 py-1 text-xs font-bold tracking-widest">LATEST</span>
+                <span class="number-index">2026.5 — 2026.8</span>
+              </div>
+              <h3 class="text-2xl md:text-3xl font-black text-ink mb-2">阿里巴巴虎鲸文娱 · 妙呀潮玩AI平台</h3>
+              <p class="text-lg text-klein font-bold mb-5">增长运营实习生</p>
+              <p class="text-sm text-ink/70 leading-relaxed">负责潮玩 AI 平台官方社媒运营、达人 BD 与站内线上线下活动策划，通过内容策划与数据监测推动账号增长。</p>
+            </div>
+          </div>
+          <div class="timeline-visual w-full md:w-1/2 md:pl-12 flex items-center">
+            <div class="field-note-card w-full" data-project-id="damai">
+              <img src="images/damai-cover.png" alt="阿里巴巴 · 妙呀潮玩" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 02 正大集团 -->
+        <div class="timeline-item timeline-right flex flex-col md:flex-row-reverse gap-8 mb-16 pl-14 md:pl-0 reveal" style="transition-delay: 0.2s">
+          <div class="timeline-dot">02</div>
+          <div class="timeline-content w-full md:w-1/2 md:pl-12">
+            <div class="construct-card project-card p-8 h-full flex flex-col justify-center" data-project-id="cp">
+              <div class="corner-marker tl"></div><div class="corner-marker tr"></div>
+              <div class="corner-marker bl"></div><div class="corner-marker br"></div>
+              <div class="flex items-center gap-3 mb-4">
+                <span class="number-index">2025.12 — 2026.3</span>
+              </div>
+              <h3 class="text-2xl md:text-3xl font-black text-ink mb-2">正大集团正大食品</h3>
+              <p class="text-lg text-klein font-bold mb-5">市场中心 · 整合营销实习生</p>
+              <p class="text-sm text-ink/70 leading-relaxed">负责官方社媒日常运营与数据复盘，协同新品宣传及营销节点推广，参与 AI 短视频大赛等项目落地。</p>
+            </div>
+          </div>
+          <div class="timeline-visual w-full md:w-1/2 md:pr-12 flex items-center">
+            <div class="field-note-card w-full" data-project-id="cp">
+              <img src="images/cp.jpg" alt="正大食品现场" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 03 太古可口可乐 -->
+        <div class="timeline-item timeline-left flex flex-col md:flex-row gap-8 mb-8 pl-14 md:pl-0 reveal" style="transition-delay: 0.3s">
+          <div class="timeline-dot">03</div>
+          <div class="timeline-content w-full md:w-1/2 md:pr-12">
+            <div class="construct-card project-card p-8 h-full flex flex-col justify-center" data-project-id="coke">
+              <div class="corner-marker tl"></div><div class="corner-marker tr"></div>
+              <div class="corner-marker bl"></div><div class="corner-marker br"></div>
+              <div class="flex items-center gap-3 mb-4">
+                <span class="number-index">2024.1 — 2024.4</span>
+              </div>
+              <h3 class="text-2xl md:text-3xl font-black text-ink mb-2">太古可口可乐饮料有限公司</h3>
+              <p class="text-lg text-klein font-bold mb-5">公共事务与传播部门 · 实习生</p>
+              <p class="text-sm text-ink/70 leading-relaxed">参与企业公共传播项目，负责实地拍摄、新闻稿与推文撰写、H5 制作及媒体关系维护。</p>
+            </div>
+          </div>
+          <div class="timeline-visual w-full md:w-1/2 md:pl-12 flex items-center">
+            <div class="field-note-card w-full" data-project-id="coke">
+              <img src="images/coke.jpg" alt="可口可乐现场" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Social / 账号运营 -->
+  <section id="social" class="py-28 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-end gap-6 mb-16 reveal">
+        <span class="text-6xl font-black text-klein/10">03</span>
+        <div>
+          <p class="number-index mb-2">SOCIAL / XIAOHONGSHU</p>
+          <h2 class="text-4xl md:text-6xl section-title text-ink">账号运营</h2>
+        </div>
+        <div class="h-px flex-1 bg-klein/20 mb-4"></div>
+      </div>
+
+      <!-- Profile & data -->
+      <div class="grid md:grid-cols-12 gap-6 mb-8">
+        <div class="md:col-span-7 construct-card p-8 reveal">
+          <div class="corner-marker tl"></div><div class="corner-marker tr"></div>
+          <div class="corner-marker bl"></div><div class="corner-marker br"></div>
+          <div class="flex items-center gap-4 mb-6">
+            <svg class="w-12 h-12 flex-shrink-0" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="小红书">
+              <rect width="48" height="48" rx="12" fill="#FF2442"/>
+              <text x="24" y="25" fill="white" font-size="13" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;">小红书</text>
+            </svg>
+            <div>
+              <h3 class="text-2xl font-black">小红书个人主页</h3>
+              <p class="text-sm text-ink/50">@弥弥此行</p>
+            </div>
+          </div>
+          <p class="text-ink/70 leading-relaxed mb-6">
+            账号定位：基于二次元/饭圈兴趣圈层，聚焦周边视觉设计与素材教程分享。内容覆盖吧唧、背卡、ID 卡、御守、大屏应援剪辑、输入法皮肤、鼠标指针等多元载体，同时通过可商用素材与 AI/设计教程实现流量沉淀。
+          </p>
+          <a href="https://www.xiaohongshu.com/user/profile/5d392f5c000000001002f935" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 bg-[#FF2442] text-white font-bold tracking-widest hover:bg-[#d91f3a] transition">
+            点击访问小红书主页 →
+          </a>
+        </div>
+
+        <div class="md:col-span-5 construct-card p-8 reveal" style="transition-delay: 0.1s">
+          <div class="corner-marker tl"></div><div class="corner-marker tr"></div>
+          <div class="corner-marker bl"></div><div class="corner-marker br"></div>
+          <h3 class="text-2xl font-black mb-6">账号定位</h3>
+          <div class="space-y-6">
+            <div class="flex justify-between items-start border-b border-klein/10 pb-4">
+              <p class="text-ink/60">内容方向</p>
+              <p class="font-bold text-ink text-right">周边设计 · 素材分享 · 设计教程</p>
+            </div>
+            <div class="flex justify-between items-start border-b border-klein/10 pb-4">
+              <p class="text-ink/60">运营周期</p>
+              <p class="font-bold text-ink text-right">2024.10 至今持续更新</p>
+            </div>
+            <div class="flex justify-between items-start">
+              <p class="text-ink/60">账号ID</p>
+              <p class="font-bold text-klein text-right">@弥弥此行</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Highlights -->
+      <div class="construct-card p-8 md:p-10 mb-8 reveal">
+        <div class="corner-marker tl"></div><div class="corner-marker tr"></div>
+        <div class="corner-marker bl"></div><div class="corner-marker br"></div>
+        <div class="flex items-end gap-6 mb-8">
+          <span class="text-5xl font-black text-klein/10">03.1</span>
+          <div>
+            <p class="number-index mb-1">POSITIONING</p>
+            <h3 class="text-3xl font-black">账号亮点</h3>
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div>
+            <h4 class="text-xl font-black mb-3">视觉落地能力强</h4>
+            <p class="text-ink/70 leading-relaxed">可独立完成徽章、背卡、透卡、镭射票、立牌、卡套、大屏视频、输入法皮肤等多种周边载体设计，覆盖静态到动态、平面到界面。</p>
+          </div>
+          <div>
+            <h4 class="text-xl font-black mb-3">用户洞察与爆款打造</h4>
+            <p class="text-ink/70 leading-relaxed">精准捕捉饭圈与二次元创作者痛点，以「可商用素材 + 使用教程」输出利他型内容；ID 卡模板、AI 矢量玫瑰等笔记均达到万级曝光。</p>
+          </div>
+          <div>
+            <h4 class="text-xl font-black mb-3">设计工具教学能力</h4>
+            <p class="text-ink/70 leading-relaxed">持续输出 AI 绘图与 Photoshop 实用技巧，将复杂操作拆解为可复现步骤，降低用户学习门槛，提升内容收藏与转化。</p>
+          </div>
+          <div>
+            <h4 class="text-xl font-black mb-3">商业闭环验证</h4>
+            <p class="text-ink/70 leading-relaxed">作品展示带来稳定约稿咨询，设计模板同步上架小红书商店，已形成「内容引流 → 需求转化 → 收入变现」的完整路径。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top content -->
+      <div class="mb-6 reveal">
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 border-2 border-klein text-klein flex items-center justify-center font-black">爆</div>
+          <h3 class="text-2xl font-black">爆款内容</h3>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <a href="https://www.xiaohongshu.com/discovery/item/679376640000000029039bf0?source=webshare&xhsshare=pc_web&xsec_token=AB9wRx2HGnW-Bny9I3SOzp1UvXcph_U0UJAJj69RbhZoM=&xsec_source=pc_share" target="_blank" rel="noopener noreferrer" class="construct-card reveal block">
+          <img src="images/xhs-top1.png" alt="ID 卡模版封面" class="w-full h-64 object-cover border-b border-klein" />
+          <div class="p-6">
+            <span class="number-index">TOP 01</span>
+            <h4 class="font-black text-lg mt-2 mb-2">ID 卡模版</h4>
+            <p class="text-xs text-klein font-bold mb-2">22,404 浏览 · 1,129 赞 · 405 收藏</p>
+            <p class="text-sm text-ink/70">置顶爆款模板，搜索流量稳定，收藏转化率高。</p>
+          </div>
+        </a>
+        <a href="https://www.xiaohongshu.com/discovery/item/679e5df50000000018019293?source=webshare&xhsshare=pc_web&xsec_token=ABrZPyg55Mz-HmZ6ifmJ1RjF7TWWKXKkOudu5l5t77-m0=&xsec_source=pc_share" target="_blank" rel="noopener noreferrer" class="construct-card reveal block" style="transition-delay: 0.05s">
+          <img src="images/xhs-top2.png" alt="AI 矢量玫瑰教程封面" class="w-full h-64 object-cover border-b border-klein" />
+          <div class="p-6">
+            <span class="number-index">TOP 02</span>
+            <h4 class="font-black text-lg mt-2 mb-2">超简单 AI 矢量玫瑰制作教程</h4>
+            <p class="text-xs text-klein font-bold mb-2">8,866 浏览 · 1,205 赞 · 840 收藏</p>
+            <p class="text-sm text-ink/70">AIGC + 设计教程，高赞高藏，证明内容教学能力。</p>
+          </div>
+        </a>
+        <a href="https://www.xiaohongshu.com/discovery/item/679378a0000000001701e89a?source=webshare&xhsshare=pc_web&xsec_token=AB9wRx2HGnW-Bny9I3SOzp1YdWvesIvhb4SulWBjesGW8=&xsec_source=pc_share" target="_blank" rel="noopener noreferrer" class="construct-card reveal block" style="transition-delay: 0.1s">
+          <img src="images/xhs-top3.png" alt="ID 卡模版使用教程封面" class="w-full h-64 object-cover border-b border-klein" />
+          <div class="p-6">
+            <span class="number-index">TOP 03</span>
+            <h4 class="font-black text-lg mt-2 mb-2">怎么在平板上使用 ID 卡模版？</h4>
+            <p class="text-xs text-klein font-bold mb-2">6,891 浏览 · 285 赞 · 83 收藏</p>
+            <p class="text-sm text-ink/70">教学类视频，承接模板流量，降低用户使用门槛。</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Campus -->
+  <section id="campus" class="py-28 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-end gap-6 mb-16 reveal">
+        <span class="text-6xl font-black text-klein/10">04</span>
+        <div>
+          <p class="number-index mb-2">CAMPUS</p>
+          <h2 class="text-4xl md:text-6xl section-title text-ink">在校经历</h2>
+        </div>
+        <div class="h-px flex-1 bg-klein/20 mb-4"></div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="construct-card p-8 reveal">
+          <div class="corner-marker tl"></div><div class="corner-marker tr"></div>
+          <div class="corner-marker bl"></div><div class="corner-marker br"></div>
+          <span class="number-index">04.01</span>
+          <h3 class="text-2xl font-black mt-3 mb-4">荣誉与成绩</h3>
+          <p class="text-ink/70 leading-relaxed">
+            专业排名 <span class="text-klein font-black text-xl">3/60</span>，绩点 <span class="text-klein font-black text-xl">3.85/4.00</span>。曾获重庆大学优秀学生、优秀毕业生、优秀共青团干部、精神文明先进个人、校级优异生，8 次获得校级综合奖学金。
+          </p>
+        </div>
+        <div class="construct-card p-8 reveal" style="transition-delay: 0.1s">
+          <div class="corner-marker tl"></div><div class="corner-marker tr"></div>
+          <div class="corner-marker bl"></div><div class="corner-marker br"></div>
+          <span class="number-index">04.02</span>
+          <h3 class="text-2xl font-black mt-3 mb-4">学生工作</h3>
+          <ul class="space-y-3 text-ink/70 text-sm">
+            <li class="flex gap-2"><span class="text-klein">▸</span> 重庆大学美视电影学院团委·学生会主席团</li>
+            <li class="flex gap-2"><span class="text-klein">▸</span> 重庆大学青年志愿者协会副主席、主任</li>
+            <li class="flex gap-2"><span class="text-klein">▸</span> 重庆大学校团委办公室外联部副部长</li>
+          </ul>
+        </div>
+        <div class="construct-card p-8 reveal" style="transition-delay: 0.2s">
+          <div class="corner-marker tl"></div><div class="corner-marker tr"></div>
+          <div class="corner-marker bl"></div><div class="corner-marker br"></div>
+          <span class="number-index">04.03</span>
+          <h3 class="text-2xl font-black mt-3 mb-4">重点项目</h3>
+          <div class="space-y-4">
+            <div class="border-l-4 border-klein pl-4">
+              <p class="font-bold text-ink">「互联网＋」国赛银奖</p>
+              <p class="text-xs text-ink/60">智芯净水团队 · 视觉设计 / 视频剪辑 / 路演 PPT</p>
+            </div>
+            <div class="border-l-4 border-tan pl-4">
+              <p class="font-bold text-ink">第五届重庆先锋电影展</p>
+              <p class="text-xs text-ink/60">平面组组长 · 主视觉 / 嘉宾海报 / 影展手册</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Operation -->
+      <div class="mt-8 construct-card p-8 md:p-10 reveal">
+        <div class="corner-marker tl"></div><div class="corner-marker tr"></div>
+        <div class="corner-marker bl"></div><div class="corner-marker br"></div>
+        <div class="flex items-end gap-6 mb-8">
+          <span class="text-5xl font-black text-klein/10">04.1</span>
+          <div>
+            <p class="number-index mb-1">OPERATION</p>
+            <h3 class="text-3xl font-black">运营经历</h3>
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="project-card border border-klein p-4 bg-white" data-project-id="gzh-qing">
+            <div class="flex justify-end mb-2"><span class="text-xs text-klein font-bold border border-klein px-2 py-1">点击查看详情 →</span></div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 bg-klein text-white flex items-center justify-center text-xl font-black">青</div>
+              <div>
+                <h4 class="text-xl font-black">重庆大学青年志愿者协会</h4>
+                <p class="text-sm text-ink/50">官方公众号「青志重大」</p>
+              </div>
+            </div>
+            <p class="text-ink/70 leading-relaxed mb-4">
+              年均审核、参与制作推文总计 400 余篇，累积粉丝超过 4 万+。任职期间公众号粉丝增长超过 6000 人，点击量 2.8 万。
+            </p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-3 py-1 border border-klein/30 text-xs font-bold">官方公众号运营</span>
+              <span class="px-3 py-1 border border-klein/30 text-xs font-bold">推文编辑</span>
+              <span class="px-3 py-1 border border-klein/30 text-xs font-bold">H5 制作</span>
+            </div>
+            <img src="images/gzh1.jpg" alt="公众号运营" class="img-frame h-48 object-cover w-full" />
+          </div>
+          <div class="project-card border border-klein p-4 bg-white" data-project-id="gzh-movie">
+            <div class="flex justify-end mb-2"><span class="text-xs text-klein font-bold border border-klein px-2 py-1">点击查看详情 →</span></div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 border-2 border-klein text-klein flex items-center justify-center text-xl font-black">影</div>
+              <div>
+                <h4 class="text-xl font-black">重庆大学美视电影学院</h4>
+                <p class="text-sm text-ink/50">官方公众号「CQU电影团团」</p>
+              </div>
+            </div>
+            <p class="text-ink/70 leading-relaxed mb-4">
+              任职期间作为唯一负责人管理学院会官方微信公众号，同步学院官网新闻采写和编辑工作，审核发表 10 余篇新闻报道，总阅读量破万。
+            </p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-3 py-1 border border-klein/30 text-xs font-bold">官方公众号运营</span>
+              <span class="px-3 py-1 border border-klein/30 text-xs font-bold">新闻稿撰写</span>
+              <span class="px-3 py-1 border border-klein/30 text-xs font-bold">推文编辑</span>
+            </div>
+            <img src="images/gzh2.png" alt="公众号运营" class="img-frame h-48 object-cover w-full" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Works -->
+  <section id="works" class="py-28 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-end gap-6 mb-16 reveal">
+        <span class="text-6xl font-black text-klein/10">06</span>
+        <div>
+          <p class="number-index mb-2">WORKS</p>
+          <h2 class="text-4xl md:text-6xl section-title text-ink">作品展示</h2>
+        </div>
+        <div class="h-px flex-1 bg-klein/20 mb-4"></div>
+      </div>
+
+      <!-- Videos -->
+      <div class="mb-16">
+        <div class="flex items-center gap-4 mb-6 reveal">
+          <div class="w-10 h-10 bg-klein text-white flex items-center justify-center font-black">V</div>
+          <h3 class="text-2xl font-black">视频 / 剪辑</h3>
+        </div>
+        <div class="video-carousel reveal">
+          <div class="video-carousel-track">
+            <div class="video-carousel-card project-card" data-project-id="video1">
+            <div class="video-carousel-media">
+              <img src="images/works/video1_1.png" alt="法在你身边" />
+            </div>
+            <div class="video-carousel-info">
+              <span class="number-index">V.01</span>
+              <h4>新闻短片《法在你身边》</h4>
+              <p class="meta">23min · 视觉包装 / 后期剪辑</p>
+              <p class="desc">用新闻评述、真人演绎与动画图解，还原真实法律事件的完整脉络。</p>
+            </div>
+          </div>
+          <div class="video-carousel-card project-card" data-project-id="video2">
+            <div class="video-carousel-media">
+              <img src="images/works/video2_1.png" alt="摆摊合伙人" />
+            </div>
+            <div class="video-carousel-info">
+              <span class="number-index">V.02</span>
+              <h4>自制综艺《摆摊合伙人》</h4>
+              <p class="meta">35min · 制片 / 后期</p>
+              <p class="desc">四位大学生组队进入夜市摊位，学习经营并完成先导片与正片拍摄。</p>
+            </div>
+          </div>
+          <div class="video-carousel-card project-card" data-project-id="video3">
+            <div class="video-carousel-media">
+              <img src="images/works/video3_1.png" alt="何为美" />
+            </div>
+            <div class="video-carousel-info">
+              <span class="number-index">V.03</span>
+              <h4>科普视频《何为美？》</h4>
+              <p class="meta">2min · AIGC / 古典中国风</p>
+              <p class="desc">以古典中国风视觉解读朱光潜《文艺心理学》，AIGC 独立全流程完成。</p>
+            </div>
+          </div>
+          <div class="video-carousel-card project-card" data-project-id="video5">
+            <div class="video-carousel-media">
+              <img src="images/works/video5_1.png" alt="沙磁乱针绣" />
+            </div>
+            <div class="video-carousel-info">
+              <span class="number-index">V.04</span>
+              <h4>短纪录片《沙磁乱针绣》</h4>
+              <p class="meta">6min · 脚本 / 后期 · 一等奖</p>
+              <p class="desc">记录重庆非遗沙磁乱针绣汇入蜀绣的发展历程，获全国大艺展一等奖。</p>
+            </div>
+          </div>
+          <div class="video-carousel-card project-card" data-project-id="video6">
+            <div class="video-carousel-media">
+              <img src="images/works/video6_1.png" alt="医脉相传" />
+            </div>
+            <div class="video-carousel-info">
+              <span class="number-index">V.05</span>
+              <h4>数字短片《医脉相传》</h4>
+              <p class="meta">5min · 制片 / 灯光 · 二等奖</p>
+              <p class="desc">以中医药文化为主题，展现其作为生活方式与哲学智慧的世代传承。</p>
+            </div>
+          </div>
+          <div class="video-carousel-card project-card" data-project-id="video7">
+            <div class="video-carousel-media">
+              <img src="images/works/video7_1.png" alt="情感与形式" />
+            </div>
+            <div class="video-carousel-info">
+              <span class="number-index">V.06</span>
+              <h4>读书科普《情感与形式》</h4>
+              <p class="meta">1min40s · ASCII 美学</p>
+              <p class="desc">用 ASCII 设计美学解读苏珊·朗格经典著作，由本人独立制作完成。</p>
+            </div>
+          </div>
+          <div class="video-carousel-card project-card" data-project-id="video8">
+            <div class="video-carousel-media">
+              <img src="images/works/video8_1.png" alt="杀死艾米" />
+            </div>
+            <div class="video-carousel-info">
+              <span class="number-index">V.07</span>
+              <h4>故事短片《杀死艾米》</h4>
+              <p class="meta">17min · 桌面电影 / 后期</p>
+              <p class="desc">三个学生编剧笔下的主角艾米产生自我意识，以桌面电影形式展开轻喜剧叙事。</p>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Design -->
+      <div>
+        <div class="flex items-center gap-4 mb-8 reveal">
+          <div class="w-10 h-10 border-2 border-klein text-klein flex items-center justify-center font-black">D</div>
+          <h3 class="text-2xl font-black">设计 / 美工</h3>
+        </div>
+        <div class="video-carousel reveal">
+          <div class="video-carousel-track">
+            <div class="video-carousel-card project-card" data-project-id="design1">
+              <div class="video-carousel-media">
+                <img src="images/design1.png" alt="重庆先锋电影展" />
+              </div>
+              <div class="video-carousel-info">
+                <span class="number-index">D.01</span>
+                <h4>第五届重庆先锋电影展</h4>
+                <p class="meta">视觉设计 / 物料宣发</p>
+                <p class="desc">把控影展主视觉与上百套物料整体设计。</p>
+              </div>
+            </div>
+            <div class="video-carousel-card project-card" data-project-id="design2">
+              <div class="video-carousel-media">
+                <img src="images/design2.png" alt="青志设计" />
+              </div>
+              <div class="video-carousel-info">
+                <span class="number-index">D.02</span>
+                <h4>重庆大学青年志愿者协会</h4>
+                <p class="meta">活动海报 / 宣发物料</p>
+                <p class="desc">统筹志愿活动整体宣传工作与视觉设计课程。</p>
+              </div>
+            </div>
+            <div class="video-carousel-card project-card" data-project-id="design3">
+              <div class="video-carousel-media">
+                <img src="images/ai/ip/xiaqingyu/xiaqingyu-cover.png" alt="小青鱼IP" />
+              </div>
+              <div class="video-carousel-info">
+                <span class="number-index">D.03</span>
+                <h4>吉祥物「小青鱼」IP 设计</h4>
+                <p class="meta">吉祥物 / 表情包 / 文创</p>
+                <p class="desc">完成吉祥物形象、衍生表情包与系列文创设计。</p>
+              </div>
+            </div>
+            <div class="video-carousel-card project-card" data-project-id="design4">
+              <div class="video-carousel-media">
+                <img src="images/design4.png" alt="「互联网+」创新创业大赛国赛PPT美化" />
+              </div>
+              <div class="video-carousel-info">
+                <span class="number-index">D.04</span>
+                <h4>「互联网+」国赛 PPT 美化</h4>
+                <p class="meta">PPT 美化 / 宣传包装</p>
+                <p class="desc">团队核心成员，负责视觉包装与宣传视频。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI -->
+      <div class="mt-16">
+        <div class="flex items-center gap-4 mb-8 reveal">
+          <div class="w-10 h-10 bg-gradient-to-br from-[#667eea] to-[#764ba2] text-white flex items-center justify-center font-black">A</div>
+          <h3 class="text-2xl font-black">AI 创作</h3>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="construct-card project-card reveal" data-project-id="ai1">
+            <div class="flex justify-end p-2 pb-0"><span class="text-xs text-klein font-bold border border-klein px-2 py-1">查看详情 →</span></div>
+            <img src="images/works/video4_1.png" alt="AIGC 视频《灰烬之花》" class="w-full h-64 object-cover border-b border-klein" />
+            <div class="p-6">
+              <span class="number-index">A.01</span>
+              <h4 class="font-black text-lg mt-2 mb-2">AIGC 视频《灰烬之花》</h4>
+              <p class="text-sm text-ink/70">4min · 文生图 · 即梦 / 豆包 / 剪映 · 在情感被视为禁忌的灰色城市，少女用爆发的情感力量撕开黑白世界的裂痕。</p>
+            </div>
+          </div>
+          <div class="construct-card project-card reveal" style="transition-delay: 0.05s" data-project-id="ai2">
+            <div class="flex justify-end p-2 pb-0"><span class="text-xs text-klein font-bold border border-klein px-2 py-1">查看详情 →</span></div>
+            <img src="images/ai/ip/nuoyue-cover.png" alt="AI IP 设计" class="w-full h-64 object-cover border-b border-klein bg-cream" />
+            <div class="p-6">
+              <span class="number-index">A.02</span>
+              <h4 class="font-black text-lg mt-2 mb-2">AI IP 设计</h4>
+              <p class="text-sm text-ink/70">基于 AI 生成概念的角色形象与系列 IP 造型设计。</p>
+            </div>
+          </div>
+          <div class="construct-card project-card reveal" style="transition-delay: 0.1s" data-project-id="ai3">
+            <div class="flex justify-end p-2 pb-0"><span class="text-xs text-klein font-bold border border-klein px-2 py-1">查看详情 →</span></div>
+            <img src="images/ai/ai-pet.svg" alt="AI 桌宠设计" class="w-full h-64 object-cover border-b border-klein bg-cream" />
+            <div class="p-6">
+              <span class="number-index">A.03</span>
+              <h4 class="font-black text-lg mt-2 mb-2">AI 桌宠设计</h4>
+              <p class="text-sm text-ink/70">面向桌面陪伴场景的 AI 虚拟宠物形象与互动设定。</p>
+            </div>
+          </div>
+          <div class="construct-card project-card reveal" style="transition-delay: 0.15s" data-project-id="web1">
+            <div class="flex justify-end p-2 pb-0"><span class="text-xs text-klein font-bold border border-klein px-2 py-1">查看详情 →</span></div>
+            <img src="images/ai/web1/homepage.png" alt="个人作品集网站" class="w-full h-64 object-cover border-b border-klein bg-cream" />
+            <div class="p-6">
+              <span class="number-index">A.04</span>
+              <h4 class="font-black text-lg mt-2 mb-2">个人作品集网站</h4>
+              <p class="text-sm text-ink/70">原生 HTML + Tailwind CSS · blueprint 建筑图纸风格 · shensirui.me</p>
+            </div>
+          </div>
+          <div class="construct-card project-card reveal" style="transition-delay: 0.2s" data-project-id="web2">
+            <div class="flex justify-end p-2 pb-0"><span class="text-xs text-klein font-bold border border-klein px-2 py-1">查看详情 →</span></div>
+            <img src="images/ai/web2/module-mode.png" alt="求职进度管理工具 Job Tracker" class="w-full h-64 object-cover border-b border-klein bg-cream" />
+            <div class="p-6">
+              <span class="number-index">A.05</span>
+              <h4 class="font-black text-lg mt-2 mb-2">求职进度管理工具 Job Tracker</h4>
+              <p class="text-sm text-ink/70">SaaS 仪表盘风格 · 单文件 HTML + localStorage · 投递 / 面试 / 统计一站式管理</p>
+            </div>
+          </div>
+          <div class="construct-card project-card reveal" style="transition-delay: 0.25s" data-project-id="ai6">
+            <div class="flex justify-end p-2 pb-0"><span class="text-xs text-klein font-bold border border-klein px-2 py-1">查看详情 →</span></div>
+            <img src="images/works/video3_1.png" alt="AIGC 科普视频《何为美？》" class="w-full h-64 object-cover border-b border-klein" />
+            <div class="p-6">
+              <span class="number-index">A.06</span>
+              <h4 class="font-black text-lg mt-2 mb-2">AIGC 科普视频《何为美？》</h4>
+              <p class="text-sm text-ink/70">2min · 古典中国风 · AE / 剪映 / 豆包 · 解读朱光潜先生《文艺心理学》，结合 AIGC 独立完成。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-28 relative">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="construct-card p-10 md:p-16 text-center reveal">
+        <div class="corner-marker tl"></div><div class="corner-marker tr"></div>
+        <div class="corner-marker bl"></div><div class="corner-marker br"></div>
+        <span class="number-index">CONTACT</span>
+        <h2 class="text-4xl md:text-6xl font-black mt-3 mb-6">期待与你合作</h2>
+        <p class="text-ink/70 mb-10 max-w-md mx-auto">如果你对我的经历感兴趣，欢迎通过电话或邮件联系我。</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4 mb-10">
+          <a href="tel:15256585725" class="magnetic-btn px-8 py-4 bg-klein text-white font-bold tracking-widest hover:bg-ink transition flex items-center justify-center gap-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+            15256585725
+          </a>
+          <a href="mailto:shensirui@126.com" class="magnetic-btn px-8 py-4 border-2 border-klein text-klein font-bold tracking-widest hover:bg-klein hover:text-white transition flex items-center justify-center gap-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            shensirui@126.com
+          </a>
+        </div>
+        <p class="text-xs text-ink/40">© 2026 沈思睿 · 广播电视编导 · 内容运营 · 视觉设计</p>
+        <p class="text-xs text-ink/40 mt-2">
+          <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" class="hover:text-klein transition">皖ICP备2026025735号-1</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Project Detail Modal -->
+  <div id="projectModal" class="fixed inset-0 z-[100] hidden" aria-modal="true" role="dialog">
+    <div id="modalOverlay" class="absolute inset-0 modal-backdrop"></div>
+    <div class="absolute inset-3 md:inset-8 lg:inset-12 bg-white border border-klein flex flex-col shadow-2xl">
+      <div class="flex items-start justify-between p-5 md:p-6 border-b border-klein bg-white">
+        <div>
+          <span id="modalDate" class="number-index"></span>
+          <h3 id="modalTitle" class="text-2xl md:text-4xl font-black text-ink mt-1"></h3>
+          <p id="modalSubtitle" class="text-klein font-bold mt-1"></p>
+        </div>
+        <button id="modalClose" class="w-10 h-10 border border-klein flex items-center justify-center text-klein hover:bg-klein hover:text-white transition shrink-0 ml-4" aria-label="关闭">✕</button>
+      </div>
+      <div class="flex-1 overflow-y-auto p-5 md:p-8">
+        <div class="max-w-4xl mx-auto">
+          <div id="modalDescription" class="text-ink/80 leading-relaxed mb-8"></div>
+          <div id="modalVideoWrap" class="hidden mb-8">
+            <h4 class="text-lg font-black mb-4 border-l-4 border-klein pl-3">视频播放</h4>
+            <video id="modalVideo" class="w-full border border-klein bg-black" controls preload="metadata" playsinline></video>
+          </div>
+          <div id="modalSections" class="hidden modal-sections"></div>
+          <div id="modalExtra" class="hidden mb-8 p-6 border border-klein/20 bg-cream/40">
+            <h4 class="text-lg font-black mb-3 text-klein">更多详情</h4>
+            <div id="modalExtraText" class="text-ink/80 leading-relaxed whitespace-pre-line"></div>
+          </div>
+          <h4 id="modalImagesTitle" class="text-lg font-black mb-4 border-l-4 border-klein pl-3">项目图片</h4>
+          <div id="modalImages" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Auto stagger reveal within .stagger-group containers
+    document.querySelectorAll('.stagger-group').forEach(group => {
+      group.querySelectorAll('.reveal').forEach((el, i) => {
+        el.style.setProperty('--stagger-delay', `${i * 0.08}s`);
+      });
+    });
+
+    // Timeline grow progress on scroll
+    (function () {
+      const wrapper = document.querySelector('.timeline-wrapper');
+      if (!wrapper) return;
+      function updateProgress() {
+        const rect = wrapper.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const start = rect.top - vh * 0.75;
+        const end = rect.bottom - vh * 0.25;
+        const range = end - start;
+        const progress = range > 0 ? Math.max(0, Math.min(1, -start / range)) : 0;
+        wrapper.style.setProperty('--progress', progress.toFixed(3));
+      }
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress);
+      updateProgress();
+    })();
+
+    // Active nav link
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    function updateActiveNav() {
+      let current = '';
+      const scrollPos = window.scrollY + 140;
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionBottom = sectionTop + section.offsetHeight;
+        if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+          current = section.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+      });
+    }
+
+    // Magnetic buttons
+    document.querySelectorAll('.magnetic-btn').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate(0, 0)';
+      });
+    });
+
+    // 3D tilt card
+    const heroTiltCard = document.getElementById('heroTiltCard');
+    if (heroTiltCard) {
+      const tiltInner = heroTiltCard.querySelector('.tilt-card-inner');
+      const tiltGlare = heroTiltCard.querySelector('.tilt-card-glare');
+      heroTiltCard.addEventListener('mousemove', (e) => {
+        const rect = heroTiltCard.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        if (tiltInner) {
+          tiltInner.style.transform = `rotateY(${x * 18}deg) rotateX(${-y * 18}deg) translateZ(24px)`;
+          tiltInner.style.boxShadow = `${-x * 30}px ${Math.max(12, y * 30 + 20)}px 50px rgba(0, 47, 167, 0.18)`;
+        }
+        if (tiltGlare) {
+          tiltGlare.style.backgroundPosition = `${(x + 0.5) * 100}% ${(y + 0.5) * 100}%`;
+        }
+      });
+      heroTiltCard.addEventListener('mouseleave', () => {
+        if (tiltInner) {
+          tiltInner.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0)';
+          tiltInner.style.boxShadow = 'none';
+        }
+      });
+    }
+
+    // Reading progress, parallax & flowing background
+    const heroImage = document.querySelector('#heroTiltCard .parallax');
+    const readingProgress = document.getElementById('readingProgress');
+    const gridBg = document.querySelector('.grid-bg');
+    const heroTransition = document.getElementById('heroTransition');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+          if (readingProgress) readingProgress.style.width = progress + '%';
+          if (heroImage) {
+            heroImage.style.transform = `translateY(${scrollY * 0.06}px) scale(1.05)`;
+          }
+          if (gridBg) {
+            gridBg.style.backgroundPosition = `${scrollY * 0.15}px ${scrollY * 0.15}px`;
+          }
+          // Transition parallax: layers drift slightly as user scrolls past hero
+          if (heroTransition) {
+            const heroHeight = document.getElementById('hero').offsetHeight;
+            const transitionProgress = Math.min(Math.max(scrollY / (heroHeight * 0.6), 0), 1);
+            heroTransition.classList.toggle('is-scrolled', scrollY > 10);
+            heroTransition.style.setProperty('--scroll-parallax', (transitionProgress * 40).toFixed(1));
+          }
+          updateActiveNav();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+    updateActiveNav();
+
+    // Project data (expandable; add extraText / extraImages later)
+    const projectData = {
+      'damai': {
+        title: '阿里巴巴虎鲸文娱 · 妙呀潮玩AI平台',
+        subtitle: '增长运营实习生',
+        date: '2026.x — 至今',
+        description: '<p>在阿里巴巴虎鲸文娱旗下妙呀潮玩 AI 平台担任增长运营实习生，负责官方社媒运营、达人 BD、站内活动策划与数据监测，聚焦潮玩与二次元垂类用户增长。</p><p class="mt-4">在职期间运营的小红书官方账号：<a href="https://www.xiaohongshu.com/user/profile/69a924870000000032037a6a?xsec_token=ABqvsnJFuNAcNWK1Ig818tVqg1UPNqI78Pli1QR8r_Wzw%3D&xsec_source=pc_search" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-klein font-bold hover:underline">@妙呀潮玩AI <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a></p>',
+        sections: [
+          {
+            title: '官方社媒内容运营',
+            items: [
+              '负责官方账号内容策划、图文与短视频创作及日常发布',
+              '结合潮玩 / 二次元热点产出爆款内容，提升账号曝光与互动',
+              '统一品牌视觉调性，沉淀可复用的内容模板与选题库'
+            ]
+          },
+          {
+            title: '垂类达人 BD 与合作',
+            items: [
+              '挖掘潮玩、二次元领域潜力达人并建立合作联系',
+              '跟进达人内容产出，把控合作质量与发布节奏',
+              '维护达人关系，推动 UGC 与平台活动联动'
+            ]
+          },
+          {
+            title: '站内活动策划与促活',
+            items: [
+              '策划并落地站内线上活动，提升用户活跃度与留存',
+              '联动线下展会、快闪等场景，完成活动宣发与执行',
+              '复盘活动数据，持续优化活动玩法与奖励机制'
+            ]
+          },
+          {
+            title: '爆款内容案例',
+            items: [
+              '《人，你能完美进球吗！》：结合欧洲杯热点与宠物踢球创意，播放量 2,278，获赞 208、收藏 59，互动率约 11.7%',
+              '《人…可以帮帮妙妙躲雨吗》：以雨天剧情引发用户共情，播放量 3,678，获赞 353、收藏 52，互动率约 11.0%',
+              '两条笔记均远超账号日常平均水平，验证了「萌宠 IP + 轻互动/情绪共鸣」选题的高转化潜力'
+            ]
+          }
+        ],
+        images: ['images/damai_post1.png', 'images/damai_post2.png']
+      },
+      'cp': {
+        title: '正大集团正大食品',
+        subtitle: '市场中心 · 整合营销实习生',
+        date: '2025.12 — 2026.3',
+        description: '<p>在正大食品市场中心参与整合营销工作，覆盖官方社媒运营、社区维护、新品推广及重点项目执行，协同完成多个campaign落地。</p>',
+        sections: [
+          {
+            title: '「日日好味」日常内容运营',
+            items: [
+              '负责官方社媒日常选题策划、内容排版与发布',
+              '监测账号数据，定期复盘并优化内容方向',
+              '维护社区氛围，及时回应用户评论与私信'
+            ]
+          },
+          {
+            title: '「正大一桌好菜 AI 短视频大赛」',
+            items: [
+              '参与大赛策划与执行，包括规则制定与奖项设计',
+              '协助 AI 短视频素材收集、筛选与二次传播',
+              '跟踪活动数据，输出结案报告与优化建议'
+            ]
+          },
+          {
+            title: '新品宣传物料与推广方案',
+            items: [
+              '协同团队完成新品宣传物料创意与制作',
+              '撰写推广文案，配合多平台分发节奏',
+              '跟进方案落地，收集反馈并迭代优化'
+            ]
+          },
+          {
+            title: '账号数据监测与社区维护',
+            items: [
+              '建立日常数据监测表，跟踪粉丝与互动变化',
+              '定期输出数据复盘，识别高潜力内容方向',
+              '维护用户社群，提升粉丝粘性与品牌好感度'
+            ]
+          }
+        ],
+        images: ['images/cp.jpg'],
+        extraText: '更多项目详情与数据待补充……'
+      },
+      'coke': {
+        title: '太古可口可乐饮料有限公司',
+        subtitle: '公共事务与传播部门 · 实习生',
+        date: '2024.1 — 2024.4',
+        description: '<p>在太古可口可乐公共事务与传播部门实习，参与企业形象塑造、媒体关系维护与重点项目传播，负责实地拍摄、新闻稿撰写及新媒体内容制作。</p>',
+        sections: [
+          {
+            title: '「匠心安徽·烟火寻味」',
+            items: [
+              '参与项目策划，挖掘安徽本土烟火气与品牌关联点',
+              '负责部分实地拍摄与素材整理',
+              '协助新闻稿与推文撰写，扩大项目传播声量'
+            ]
+          },
+          {
+            title: '「你我相连·赢在龙年」',
+            items: [
+              '参与春节主题传播项目的内容策划与执行',
+              '协助制作 H5 与社媒推文，提升节日互动',
+              '整理项目数据与媒体报道，输出传播简报'
+            ]
+          },
+          {
+            title: '新闻媒体关系维护',
+            items: [
+              '建立并维护与新闻媒体的日常联系',
+              '策划媒体合作选题，塑造企业正面形象',
+              '整理媒体资源库，更新记者联系方式与报道偏好'
+            ]
+          },
+          {
+            title: '实地拍摄与内容制作',
+            items: [
+              '跟随团队完成项目实地拍摄与现场记录',
+              '撰写新闻稿、推文及活动通稿',
+              '使用 H5 工具制作互动传播内容'
+            ]
+          }
+        ],
+        images: ['images/coke.jpg'],
+        extraText: '更多项目详情与数据待补充……'
+      },
+      'gzh-qing': {
+        title: '重庆大学青年志愿者协会',
+        subtitle: '官方公众号「青志重大」运营',
+        date: '在校经历',
+        description: `<p>年均审核、参与制作推文总计 400 余篇，累积粉丝超过 4 万+。任职期间公众号粉丝增长超过 6000 人，点击量 2.8 万。</p>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="px-3 py-1 border border-klein/30 text-xs font-bold">官方公众号运营</span>
+          <span class="px-3 py-1 border border-klein/30 text-xs font-bold">推文编辑</span>
+          <span class="px-3 py-1 border border-klein/30 text-xs font-bold">H5 制作</span>
+        </div>`,
+        images: ['images/gzh1.jpg'],
+        extraText: '更多运营数据与案例待补充……'
+      },
+      'gzh-movie': {
+        title: '重庆大学美视电影学院',
+        subtitle: '官方公众号「CQU电影团团」运营',
+        date: '在校经历',
+        description: `<p>任职期间作为唯一负责人管理学院会官方微信公众号，同步学院官网新闻采写和编辑工作，审核发表 10 余篇新闻报道，总阅读量破万。</p>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="px-3 py-1 border border-klein/30 text-xs font-bold">官方公众号运营</span>
+          <span class="px-3 py-1 border border-klein/30 text-xs font-bold">新闻稿撰写</span>
+          <span class="px-3 py-1 border border-klein/30 text-xs font-bold">推文编辑</span>
+        </div>`,
+        images: ['images/gzh2.png'],
+        extraText: '更多运营数据与案例待补充……'
+      },
+      'video1': {
+        title: '新闻短片《法在你身边》',
+        subtitle: '23min · 视觉包装 / 后期剪辑 · AE / 剪映',
+        date: '视频作品 V.01',
+        description: '<p>讲堂形式点评身边的真实法律事件，配以记者采访、真人演绎、动画图解等形式进行事件全貌展示。</p>',
+        video: 'videos/video1.mp4',
+        images: ['images/works/video1_1.png', 'images/works/video1_2.png', 'images/works/video1_3.png', 'images/works/video1_4.png'],
+        extraText: ''
+      },
+      'video2': {
+        title: '自制综艺《摆摊合伙人》',
+        subtitle: '35min · 制片 / 后期 · PS / AE / 剪映',
+        date: '视频作品 V.02',
+        description: '<p>四位大学生嘉宾两两分组进入夜市摊位学习经营，已落地实拍先导片和第一期。</p>',
+        video: 'videos/video2.mp4',
+        images: ['images/works/video2_1.png', 'images/works/video2_2.png', 'images/works/video2_3.png', 'images/works/video2_4.png', 'images/works/video2_5.png', 'images/works/video2_6.png'],
+        extraText: ''
+      },
+      'video3': {
+        title: '科普视频《何为美？》',
+        subtitle: '2min · 独立全流程 · AE / 剪映 / 豆包',
+        date: '视频作品 V.03',
+        description: '<p>解读朱光潜先生《文艺心理学》，使用古典中国风视觉美学，结合 AIGC 独立完成。</p>',
+        video: 'videos/video3.mp4',
+        images: ['images/works/video3_1.png', 'images/works/video3_2.png', 'images/works/video3_3.png', 'images/works/video3_4.png', 'images/works/video3_5.png', 'images/works/video3_6.png'],
+        extraText: ''
+      },
+      'video5': {
+        title: '短纪录片《沙磁乱针绣》',
+        subtitle: '6min · 脚本设计 / 后期剪辑 · 全国大艺展重庆赛区一等奖',
+        date: '视频作品 V.04',
+        description: '<p>讲述重庆市级非遗沙磁乱针绣传承人将江苏乱针绣汇入重庆蜀绣的发展历程。</p>',
+        video: 'videos/video5.mp4',
+        images: ['images/works/video5_1.png', 'images/works/video5_2.png', 'images/works/video5_3.png', 'images/works/video5_4.png'],
+        extraText: ''
+      },
+      'video6': {
+        title: '数字短片《医脉相传》',
+        subtitle: '5min · 制片 / 灯光 · 计算机设计大赛重庆赛区二等奖',
+        date: '视频作品 V.05',
+        description: '<p>以中医药文化为主题的数字短片，展现中医药作为生活方式和哲学智慧与中华民族共同成长。</p>',
+        video: 'videos/video6.mp4',
+        images: ['images/works/video6_1.png', 'images/works/video6_2.png', 'images/works/video6_3.png', 'images/works/video6_4.png'],
+        extraText: ''
+      },
+      'video7': {
+        title: '读书科普视频《情感与形式》',
+        subtitle: '1min40s · 全流程制作 · AE / 剪映',
+        date: '视频作品 V.06',
+        description: '<p>解读苏珊·朗格女士的经典著作《情感与形式》，使用 ASCII 设计美学风格，由本人独立制作完成。</p>',
+        video: 'videos/video7.mp4',
+        images: ['images/works/video7_1.png', 'images/works/video7_2.png', 'images/works/video7_3.png', 'images/works/video7_4.png', 'images/works/video7_5.png', 'images/works/video7_6.png'],
+        extraText: ''
+      },
+      'video8': {
+        title: '故事短片《杀死艾米》',
+        subtitle: '17min · 桌面电影 / 轻喜剧 · 编剧 / 副导演 / 后期',
+        date: '视频作品 V.07',
+        description: '<p>该作品讲述了三个学生剧组成员正在一起编写一个剧本故事，他们内部对于剧情不断争吵，在多次对剧情的改动下，突然发现笔下的主角艾米有了自我意识，并在电脑上以打字的方式与他们共同讨论剧情和自我设定。</p><p>在创作过程中，艾米的自我意识逐渐强大，剧组三人不满她的自作主张，想要主宰自己创造的主人公。最终在一次激烈的争吵中，编剧一气之下把艾米存在的文档删了……</p>',
+        video: 'videos/video8.mp4',
+        images: ['images/works/video8_1.png', 'images/works/video8_2.png', 'images/works/video8_3.png', 'images/works/video8_4.png'],
+        extraText: ''
+      },
+      'design1': {
+        title: '第五届重庆先锋电影展',
+        subtitle: '视觉设计 / 物料宣发',
+        date: '设计作品 D.01',
+        description: '<p>把控影展主视觉与上百套物料整体设计。</p>',
+        images: ['images/design1.png'],
+        extraText: '更多设计说明与物料图片待补充……'
+      },
+      'design2': {
+        title: '重庆大学青年志愿者协会',
+        subtitle: '活动海报 / 宣发物料',
+        date: '设计作品 D.02',
+        description: '<p>统筹志愿活动整体宣传工作与视觉设计课程。</p>',
+        images: ['images/design2.png'],
+        extraText: '更多设计说明与物料图片待补充……'
+      },
+      'design3': {
+        title: '吉祥物「小青鱼」IP 设计',
+        subtitle: '吉祥物形象设计、衍生表情包、文创设计',
+        date: '设计作品 D.03',
+        description: '<p>吉祥物形象设计、衍生表情包、文创设计。</p>',
+        images: ['images/ai/ip/xiaqingyu/xiaqingyu-cover.png', 'images/ai/ip/xiaqingyu/xiaqingyu-2.png', 'images/ai/ip/xiaqingyu/xiaqingyu-3.png', 'images/ai/ip/xiaqingyu/xiaqingyu-4.jpg', 'images/ai/ip/xiaqingyu/xiaqingyu-5.png', 'images/ai/ip/xiaqingyu/xiaqingyu-6.png', 'images/ai/ip/xiaqingyu/xiaqingyu-7.png'],
+        extraText: '更多设计说明与物料图片待补充……'
+      },
+      'design4': {
+        title: '「互联网+」创新创业大赛国赛PPT美化',
+        subtitle: 'PPT 美化 / 宣传包装',
+        date: '设计作品 D.04',
+        description: '<p>团队核心成员（排序第三），负责视觉包装与宣传视频。</p>',
+        images: ['images/design4.png'],
+        extraText: '更多设计说明与物料图片待补充……'
+      },
+      'ai1': {
+        title: 'AIGC 视频《灰烬之花》',
+        subtitle: '4min · 文生图 · 即梦 / 豆包 / 剪映',
+        date: 'AI 创作 A.01',
+        description: '<p>在情感被视为禁忌的灰色城市，少女用爆发的情感力量守护彼此，撕开黑白世界的色彩裂痕。全流程使用 AI 文生图生成关键帧，再经剪辑与后期完成叙事。</p>',
+        video: 'videos/video4.mp4',
+        images: ['images/works/video4_1.png', 'images/works/video4_2.png', 'images/works/video4_3.png', 'images/works/video4_4.png', 'images/works/video4_5.png', 'images/works/video4_6.png'],
+        extraText: '更多创作说明、幕后素材与链接待补充……'
+      },
+      'ai2': {
+        title: 'AI IP 设计',
+        subtitle: 'AI 概念生成 / 角色与系列 IP 造型设计',
+        date: 'AI 创作 A.02',
+        description: '<p>基于 AI 生成概念的角色形象与系列 IP 造型设计，探索从概念草图到可落地 IP 形象的视觉转化路径。</p>',
+        images: ['images/ai/ip/nuoyue-cover.png', 'images/ai/ip/nuoyue-1.png', 'images/ai/ip/nuoyue-2.png', 'images/ai/ip/nuoyue-3.png', 'images/ai/ip/nuoyue-4.png', 'images/ai/ip/nuoyue-5.png'],
+        extraText: '更多设计说明与高清图片待补充……'
+      },
+      'ai3': {
+        title: 'AI 桌宠设计',
+        subtitle: '桌面陪伴场景 / AI 虚拟宠物形象与互动设定',
+        date: 'AI 创作 A.03',
+        description: '<p>面向桌面陪伴场景的 AI 虚拟宠物形象与互动设定，结合状态机与 AI 对话能力，打造可长期陪伴的桌面角色。</p>',
+        images: ['images/ai/ai-pet.svg'],
+        extraText: '更多设计说明与演示素材待补充……'
+      },
+      'web1': {
+        title: '个人作品集网站',
+        subtitle: '原生 HTML + Tailwind CSS · blueprint 建筑图纸风格',
+        date: 'AI 创作 A.04',
+        description: `<p>使用原生 HTML、内联 Tailwind CSS 与自定义样式实现的个人作品集网站，以 blueprint 建筑图纸风格为视觉主线：克莱因蓝背景、几何辅助线、动物剪影与奶油色波浪转场，营造高识别度的技术感与艺术感。</p>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="px-3 py-1 border border-klein/30 text-xs font-bold">原生 HTML</span>
+          <span class="px-3 py-1 border border-klein/30 text-xs font-bold">Tailwind CSS</span>
+          <span class="px-3 py-1 border border-klein/30 text-xs font-bold">Blueprint 视觉风格</span>
+          <span class="px-3 py-1 border border-klein/30 text-xs font-bold">JS 交互与模态框</span>
+        </div>`,
+        sections: [
+          {
+            title: '视觉设计',
+            items: [
+              '克莱因蓝主背景搭配奶油色波浪过渡，打造高冲击力的首屏入场',
+              '建筑图纸风格的几何辅助线、圆形标注与动物/植物剪影装饰',
+              '项目卡片统一采用“工程制图”边框与角落标记，强化整体调性',
+              '响应式布局，适配桌面与移动端阅读'
+            ]
+          },
+          {
+            title: '交互实现',
+            items: [
+              'JavaScript 驱动的项目详情模态框，通过 data-project-id 映射 projectData 对象',
+              '滚动触发的 reveal 动画、数字索引与悬浮细节',
+              'Hero 区域个人信息与作品入口的层级编排'
+            ]
+          },
+          {
+            title: '部署与访问',
+            items: [
+              '通过 SFTP 部署至阿里云轻量服务器（116.62.167.194）',
+              '域名 shensirui.me 指向该站点，可直接通过浏览器访问'
+            ]
+          }
+        ],
+        images: ['images/ai/web1/homepage.png', 'images/ai/web1/info-section.png', 'images/ai/web1/info-section-1.png', 'images/ai/web1/click-popup.png'],
+        extraText: '在线访问：shensirui.me'
+      },
+      'web2': {
+        title: '求职进度管理工具 Job Tracker',
+        subtitle: 'SaaS 仪表盘风格 · 单文件 HTML + localStorage',
+        date: 'AI 创作 A.05',
+        description: `<p>为秋招投递记录管理打造的单文件 Web 应用，采用深色侧边栏 + 浅米色内容区的专业 SaaS 仪表盘风格。支持投递记录的增删改查、卡片/表格双视图、表格内联编辑，以及面试日历与多维统计。</p>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="px-3 py-1 border border-klein/30 text-xs font-bold">单文件 SPA</span>
+          <span class="px-3 py-1 border border-klein/30 text-xs font-bold">localStorage 持久化</span>
+          <span class="px-3 py-1 border border-klein/30 text-xs font-bold">SaaS Dashboard</span>
+          <span class="px-3 py-1 border border-klein/30 text-xs font-bold">面试日历</span>
+        </div>`,
+        sections: [
+          {
+            title: '核心功能',
+            items: [
+              '投递记录的增删改查，字段覆盖公司、岗位、进度、日期、薪资、备注等',
+              '卡片视图与表格视图一键切换，表格支持点击单元格直接内联编辑',
+              '面试日历自动从数据中提取面试/跟进日期，支持周视图与月视图',
+              '顶部统计面板实时汇总投递数、面试数、Offer 数等关键指标'
+            ]
+          },
+          {
+            title: '交互体验',
+            items: [
+              '侧边栏页面导航，各功能模块可真正切换而不只是占位',
+              '筛选按钮使用浅粉色、新增按钮使用浅绿色、面试按钮使用浅蓝色，功能区分清晰',
+              '导入/导出 JSON 与 CSV，支持数据备份与迁移'
+            ]
+          },
+          {
+            title: '技术特点',
+            items: [
+              '单 HTML 文件内嵌 CSS/JS，无需构建工具即可运行',
+              '纯前端 localStorage 持久化，保护个人隐私数据',
+              '部署于阿里云服务器，可通过 http://116.62.167.194/job-tracker.html 访问'
+            ]
+          }
+        ],
+        images: ['images/ai/web2/module-mode.png', 'images/ai/web2/table-mode.png', 'images/ai/web2/resume-calendar.png', 'images/ai/web2/record-popup.png'],
+        extraText: '在线访问：http://116.62.167.194/job-tracker.html'
+      },
+      'ai6': {
+        title: 'AIGC 科普视频《何为美？》',
+        subtitle: '2min · 古典中国风 · AE / 剪映 / 豆包',
+        date: 'AI 创作 A.06',
+        description: '<p>解读朱光潜先生《文艺心理学》，使用古典中国风视觉美学，结合 AIGC 独立完成。视频以 AI 生成素材与传统后期相结合的方式，呈现美学理论的视觉化表达。</p>',
+        images: ['images/works/video3_1.png', 'images/works/video3_2.png', 'images/works/video3_3.png', 'images/works/video3_4.png', 'images/works/video3_5.png', 'images/works/video3_6.png']
+      }
+    };
+
+    // Modal logic
+    const modal = document.getElementById('projectModal');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalClose = document.getElementById('modalClose');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSubtitle = document.getElementById('modalSubtitle');
+    const modalDate = document.getElementById('modalDate');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalSections = document.getElementById('modalSections');
+    const modalImages = document.getElementById('modalImages');
+    const modalImagesTitle = document.getElementById('modalImagesTitle');
+    const modalExtra = document.getElementById('modalExtra');
+    const modalExtraText = document.getElementById('modalExtraText');
+    const modalVideoWrap = document.getElementById('modalVideoWrap');
+    const modalVideo = document.getElementById('modalVideo');
+
+    function openModal(id) {
+      const data = projectData[id];
+      if (!data) return;
+      modalTitle.textContent = data.title;
+      modalSubtitle.textContent = data.subtitle;
+      modalDate.textContent = data.date;
+      modalDescription.innerHTML = data.description;
+
+      // Render video player if available
+      if (data.video) {
+        modalVideo.src = data.video;
+        modalVideoWrap.classList.remove('hidden');
+      } else {
+        modalVideo.removeAttribute('src');
+        modalVideo.load();
+        modalVideoWrap.classList.add('hidden');
+      }
+
+      // Render project sections if available
+      if (data.sections && data.sections.length > 0) {
+        modalSections.innerHTML = data.sections.map(section => `
+          <div class="modal-section">
+            <h5>${section.title}</h5>
+            <ul>${section.items.map(item => `<li>${item}</li>`).join('')}</ul>
+          </div>
+        `).join('');
+        modalSections.classList.remove('hidden');
+      } else {
+        modalSections.innerHTML = '';
+        modalSections.classList.add('hidden');
+      }
+
+      modalExtraText.textContent = data.extraText || '';
+      modalExtra.classList.toggle('hidden', !data.extraText);
+
+      if (data.images && data.images.length > 0) {
+        modalImages.innerHTML = data.images.map(src => `
+          <div class="img-frame">
+            <img src="${src}" alt="${data.title}" class="w-full object-cover" loading="lazy" />
+          </div>
+        `).join('');
+        modalImages.classList.remove('hidden');
+        modalImagesTitle.classList.remove('hidden');
+      } else {
+        modalImages.innerHTML = '';
+        modalImages.classList.add('hidden');
+        modalImagesTitle.classList.add('hidden');
+      }
+      modal.classList.remove('hidden');
+      document.body.classList.add('modal-open');
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      document.body.classList.remove('modal-open');
+      if (modalVideo) {
+        modalVideo.pause();
+        modalVideo.currentTime = 0;
+      }
+    }
+
+    // Video / Design coverflow mouse control
+    document.querySelectorAll('.video-carousel').forEach(carousel => {
+      const track = carousel.querySelector('.video-carousel-track');
+      if (!track) return;
+      const cards = Array.from(track.querySelectorAll('.video-carousel-card'));
+      if (cards.length === 0) return;
+
+      let activeIndex = Math.floor(cards.length / 2);
+
+      function setActive(index) {
+        activeIndex = Math.max(0, Math.min(cards.length - 1, index));
+        track.style.setProperty('--active', activeIndex);
+        cards.forEach((card, i) => {
+          const dist = Math.abs(i - activeIndex);
+          card.classList.remove('active', 'near', 'edge', 'hidden');
+          if (dist === 0) card.classList.add('active');
+          else if (dist === 1) card.classList.add('near');
+          else if (dist === 2) card.classList.add('edge');
+          else card.classList.add('hidden');
+        });
+      }
+
+      function updateFromMouse(clientX) {
+        const rect = carousel.getBoundingClientRect();
+        const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+        const target = Math.round(ratio * (cards.length - 1));
+        if (target !== activeIndex) setActive(target);
+      }
+
+      carousel.addEventListener('mousemove', (e) => updateFromMouse(e.clientX));
+      carousel.addEventListener('mouseenter', (e) => updateFromMouse(e.clientX));
+      carousel.addEventListener('touchmove', (e) => {
+        if (e.touches.length) updateFromMouse(e.touches[0].clientX);
+      }, { passive: true });
+
+      cards.forEach((card, i) => {
+        card.style.setProperty('--i', i);
+        card.addEventListener('click', () => setActive(i));
+      });
+
+      window.addEventListener('resize', () => setActive(activeIndex));
+      setActive(activeIndex);
+    });
+
+    modalOverlay.addEventListener('click', closeModal);
+    modalClose.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    document.querySelectorAll('[data-project-id]').forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('a')) return;
+        openModal(card.dataset.projectId);
+      });
+    });
+  </script>
+</body>
+</html>

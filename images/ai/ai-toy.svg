@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#F7F5F0"/>
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#002FA7" stroke-width="0.5" opacity="0.12"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="300" fill="url(#grid)"/>
+  <rect x="40" y="40" width="320" height="220" fill="none" stroke="#002FA7" stroke-width="1.5" opacity="0.25" rx="4"/>
+  <path d="M40 220 L360 220" stroke="#002FA7" stroke-width="1" opacity="0.2"/>
+  <path d="M200 40 L200 260" stroke="#002FA7" stroke-width="1" opacity="0.2"/>
+  <circle cx="200" cy="140" r="48" fill="none" stroke="#002FA7" stroke-width="2" opacity="0.35"/>
+  <circle cx="200" cy="140" r="32" fill="none" stroke="#002FA7" stroke-width="1.5" opacity="0.25"/>
+  <text x="200" y="245" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-size="18" font-weight="800" fill="#002FA7" opacity="0.9">AI 潮玩作品</text>
+  <text x="200" y="265" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-size="11" fill="#002FA7" opacity="0.5">图片待补充</text>
+</svg>
