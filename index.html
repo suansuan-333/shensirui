@@ -514,6 +514,59 @@
       transform: translateY(0);
     }
 
+    /* Video badge on cards */
+    .video-carousel-media .video-badge {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .video-carousel-media .video-badge::before {
+      content: "";
+      width: 3rem;
+      height: 3rem;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--klein);
+      box-shadow: 0 6px 20px rgba(0, 47, 167, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23002FA7'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 55% center;
+      background-size: 1.25rem;
+      transform: scale(0.85);
+      opacity: 0.85;
+      transition: transform 0.35s ease, opacity 0.35s ease, background-color 0.35s ease;
+    }
+    .video-carousel-card.active .video-carousel-media .video-badge::before {
+      transform: scale(1);
+      opacity: 1;
+    }
+    .video-carousel-media .video-badge::after {
+      content: "含视频";
+      position: absolute;
+      bottom: 0.55rem;
+      left: 0.55rem;
+      background: var(--klein);
+      color: #fff;
+      font-size: 0.6rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      padding: 0.22rem 0.5rem;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .video-carousel-card.active .video-carousel-media .video-badge::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     @media (max-width: 768px) {
       .video-carousel { height: 400px; }
       .video-carousel-track { --card-w: 270px; --step: 300px; height: 340px; }
@@ -2029,7 +2082,21 @@
           <div id="modalDescription" class="text-ink/80 leading-relaxed mb-8"></div>
           <div id="modalVideoWrap" class="hidden mb-8">
             <h4 class="text-lg font-black mb-4 border-l-4 border-klein pl-3">视频播放</h4>
-            <video id="modalVideo" class="w-full border border-klein bg-black" controls preload="metadata" playsinline></video>
+            <div class="modal-video-player relative bg-black border border-klein">
+              <video id="modalVideo" class="w-full aspect-video bg-black" controls preload="metadata" playsinline poster=""></video>
+              <div id="modalVideoLoading" class="absolute inset-0 flex items-center justify-center bg-black/60 text-white hidden">
+                <div class="flex flex-col items-center gap-3">
+                  <div class="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <span class="text-xs font-bold tracking-wider">视频加载中</span>
+                </div>
+              </div>
+              <div id="modalVideoError" class="absolute inset-0 flex flex-col items-center justify-center bg-black/80 text-white hidden p-6 text-center">
+                <svg class="w-10 h-10 mb-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <p class="text-sm font-bold mb-1">视频文件尚未上传</p>
+                <p class="text-xs opacity-70">请将视频文件放到 <code class="bg-white/20 px-1 rounded">videos/</code> 目录后重新部署</p>
+              </div>
+            </div>
+            <p class="text-xs text-ink/50 mt-3">提示：若视频无法播放，可能是浏览器不支持该编码格式，建议同时提供 MP4 (H.264) 和 WebM 两个版本。</p>
           </div>
           <div id="modalSections" class="hidden modal-sections"></div>
           <div id="modalExtra" class="hidden mb-8 p-6 border border-klein/20 bg-cream/40">
@@ -2334,7 +2401,10 @@
         subtitle: '23min · 视觉包装 / 后期剪辑 · AE / 剪映',
         date: '视频作品 V.01',
         description: '<p>讲堂形式点评身边的真实法律事件，配以记者采访、真人演绎、动画图解等形式进行事件全貌展示。</p>',
-        video: 'videos/video1.mp4',
+        video: {
+          poster: 'images/works/video1_1.png',
+          sources: [{ src: 'videos/video1.mp4', type: 'video/mp4' }]
+        },
         images: ['images/works/video1_1.png', 'images/works/video1_2.png', 'images/works/video1_3.png', 'images/works/video1_4.png'],
         extraText: ''
       },
@@ -2343,7 +2413,10 @@
         subtitle: '35min · 制片 / 后期 · PS / AE / 剪映',
         date: '视频作品 V.02',
         description: '<p>四位大学生嘉宾两两分组进入夜市摊位学习经营，已落地实拍先导片和第一期。</p>',
-        video: 'videos/video2.mp4',
+        video: {
+          poster: 'images/works/video2_1.png',
+          sources: [{ src: 'videos/video2.mp4', type: 'video/mp4' }]
+        },
         images: ['images/works/video2_1.png', 'images/works/video2_2.png', 'images/works/video2_3.png', 'images/works/video2_4.png', 'images/works/video2_5.png', 'images/works/video2_6.png'],
         extraText: ''
       },
@@ -2352,7 +2425,10 @@
         subtitle: '2min · 独立全流程 · AE / 剪映 / 豆包',
         date: '视频作品 V.03',
         description: '<p>解读朱光潜先生《文艺心理学》，使用古典中国风视觉美学，结合 AIGC 独立完成。</p>',
-        video: 'videos/video3.mp4',
+        video: {
+          poster: 'images/works/video3_1.png',
+          sources: [{ src: 'videos/video3.mp4', type: 'video/mp4' }]
+        },
         images: ['images/works/video3_1.png', 'images/works/video3_2.png', 'images/works/video3_3.png', 'images/works/video3_4.png', 'images/works/video3_5.png', 'images/works/video3_6.png'],
         extraText: ''
       },
@@ -2361,7 +2437,10 @@
         subtitle: '6min · 脚本设计 / 后期剪辑 · 全国大艺展重庆赛区一等奖',
         date: '视频作品 V.04',
         description: '<p>讲述重庆市级非遗沙磁乱针绣传承人将江苏乱针绣汇入重庆蜀绣的发展历程。</p>',
-        video: 'videos/video5.mp4',
+        video: {
+          poster: 'images/works/video5_1.png',
+          sources: [{ src: 'videos/video5.mp4', type: 'video/mp4' }]
+        },
         images: ['images/works/video5_1.png', 'images/works/video5_2.png', 'images/works/video5_3.png', 'images/works/video5_4.png'],
         extraText: ''
       },
@@ -2370,7 +2449,10 @@
         subtitle: '5min · 制片 / 灯光 · 计算机设计大赛重庆赛区二等奖',
         date: '视频作品 V.05',
         description: '<p>以中医药文化为主题的数字短片，展现中医药作为生活方式和哲学智慧与中华民族共同成长。</p>',
-        video: 'videos/video6.mp4',
+        video: {
+          poster: 'images/works/video6_1.png',
+          sources: [{ src: 'videos/video6.mp4', type: 'video/mp4' }]
+        },
         images: ['images/works/video6_1.png', 'images/works/video6_2.png', 'images/works/video6_3.png', 'images/works/video6_4.png'],
         extraText: ''
       },
@@ -2379,7 +2461,10 @@
         subtitle: '1min40s · 全流程制作 · AE / 剪映',
         date: '视频作品 V.06',
         description: '<p>解读苏珊·朗格女士的经典著作《情感与形式》，使用 ASCII 设计美学风格，由本人独立制作完成。</p>',
-        video: 'videos/video7.mp4',
+        video: {
+          poster: 'images/works/video7_1.png',
+          sources: [{ src: 'videos/video7.mp4', type: 'video/mp4' }]
+        },
         images: ['images/works/video7_1.png', 'images/works/video7_2.png', 'images/works/video7_3.png', 'images/works/video7_4.png', 'images/works/video7_5.png', 'images/works/video7_6.png'],
         extraText: ''
       },
@@ -2388,7 +2473,10 @@
         subtitle: '17min · 桌面电影 / 轻喜剧 · 编剧 / 副导演 / 后期',
         date: '视频作品 V.07',
         description: '<p>该作品讲述了三个学生剧组成员正在一起编写一个剧本故事，他们内部对于剧情不断争吵，在多次对剧情的改动下，突然发现笔下的主角艾米有了自我意识，并在电脑上以打字的方式与他们共同讨论剧情和自我设定。</p><p>在创作过程中，艾米的自我意识逐渐强大，剧组三人不满她的自作主张，想要主宰自己创造的主人公。最终在一次激烈的争吵中，编剧一气之下把艾米存在的文档删了……</p>',
-        video: 'videos/video8.mp4',
+        video: {
+          poster: 'images/works/video8_1.png',
+          sources: [{ src: 'videos/video8.mp4', type: 'video/mp4' }]
+        },
         images: ['images/works/video8_1.png', 'images/works/video8_2.png', 'images/works/video8_3.png', 'images/works/video8_4.png'],
         extraText: ''
       },
@@ -2429,7 +2517,10 @@
         subtitle: '4min · 文生图 · 即梦 / 豆包 / 剪映',
         date: 'AI 创作 A.01',
         description: '<p>在情感被视为禁忌的灰色城市，少女用爆发的情感力量守护彼此，撕开黑白世界的色彩裂痕。全流程使用 AI 文生图生成关键帧，再经剪辑与后期完成叙事。</p>',
-        video: 'videos/video4.mp4',
+        video: {
+          poster: 'images/works/video4_1.png',
+          sources: [{ src: 'videos/video4.mp4', type: 'video/mp4' }]
+        },
         images: ['images/works/video4_1.png', 'images/works/video4_2.png', 'images/works/video4_3.png', 'images/works/video4_4.png', 'images/works/video4_5.png', 'images/works/video4_6.png'],
         extraText: '更多创作说明、幕后素材与链接待补充……'
       },
@@ -2554,6 +2645,46 @@
     const modalExtraText = document.getElementById('modalExtraText');
     const modalVideoWrap = document.getElementById('modalVideoWrap');
     const modalVideo = document.getElementById('modalVideo');
+    const modalVideoLoading = document.getElementById('modalVideoLoading');
+    const modalVideoError = document.getElementById('modalVideoError');
+
+    function normalizeVideo(video) {
+      if (!video) return null;
+      if (typeof video === 'string') return { poster: '', sources: [{ src: video, type: 'video/mp4' }] };
+      return {
+        poster: video.poster || '',
+        sources: Array.isArray(video.sources) ? video.sources : (video.src ? [{ src: video.src, type: video.type || 'video/mp4' }] : [])
+      };
+    }
+
+    function renderVideoPlayer(video) {
+      const cfg = normalizeVideo(video);
+      if (!cfg || !cfg.sources.length) {
+        modalVideo.innerHTML = '';
+        modalVideo.removeAttribute('poster');
+        modalVideoWrap.classList.add('hidden');
+        modalVideoLoading.classList.add('hidden');
+        modalVideoError.classList.add('hidden');
+        return;
+      }
+      modalVideo.innerHTML = cfg.sources.map(s => `<source src="${s.src}" type="${s.type || 'video/mp4'}">`).join('') + '<p class="p-4 text-center text-white/70 text-sm">您的浏览器不支持 HTML5 视频播放。</p>';
+      if (cfg.poster) modalVideo.setAttribute('poster', cfg.poster);
+      else modalVideo.removeAttribute('poster');
+      modalVideo.load();
+      modalVideoWrap.classList.remove('hidden');
+      modalVideoLoading.classList.remove('hidden');
+      modalVideoError.classList.add('hidden');
+    }
+
+    if (modalVideo) {
+      modalVideo.addEventListener('waiting', () => modalVideoLoading && modalVideoLoading.classList.remove('hidden'));
+      modalVideo.addEventListener('playing', () => modalVideoLoading && modalVideoLoading.classList.add('hidden'));
+      modalVideo.addEventListener('canplay', () => modalVideoLoading && modalVideoLoading.classList.add('hidden'));
+      modalVideo.addEventListener('error', () => {
+        modalVideoLoading && modalVideoLoading.classList.add('hidden');
+        modalVideoError && modalVideoError.classList.remove('hidden');
+      });
+    }
 
     function openModal(id) {
       const data = projectData[id];
@@ -2564,14 +2695,7 @@
       modalDescription.innerHTML = data.description;
 
       // Render video player if available
-      if (data.video) {
-        modalVideo.src = data.video;
-        modalVideoWrap.classList.remove('hidden');
-      } else {
-        modalVideo.removeAttribute('src');
-        modalVideo.load();
-        modalVideoWrap.classList.add('hidden');
-      }
+      renderVideoPlayer(data.video);
 
       // Render project sections if available
       if (data.sections && data.sections.length > 0) {
@@ -2613,8 +2737,27 @@
       if (modalVideo) {
         modalVideo.pause();
         modalVideo.currentTime = 0;
+        modalVideo.innerHTML = '';
+        modalVideo.removeAttribute('poster');
       }
+      if (modalVideoLoading) modalVideoLoading.classList.add('hidden');
+      if (modalVideoError) modalVideoError.classList.add('hidden');
     }
+
+    // Inject video play badge on carousel cards that have a video configured
+    function initVideoBadges() {
+      document.querySelectorAll('.video-carousel-card[data-project-id]').forEach(card => {
+        const id = card.dataset.projectId;
+        const data = projectData[id];
+        const media = card.querySelector('.video-carousel-media');
+        if (data && data.video && media && !media.querySelector('.video-badge')) {
+          const badge = document.createElement('div');
+          badge.className = 'video-badge';
+          media.appendChild(badge);
+        }
+      });
+    }
+    initVideoBadges();
 
     // Video / Design coverflow mouse control
     document.querySelectorAll('.video-carousel').forEach(carousel => {
