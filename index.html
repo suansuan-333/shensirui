@@ -2624,9 +2624,13 @@
       if (cards.length === 0) return;
 
       let activeIndex = Math.floor(cards.length / 2);
+      let pendingTarget = activeIndex;
+      let settleTimer = null;
+      const SETTLE_MS = 180;
 
       function setActive(index) {
         activeIndex = Math.max(0, Math.min(cards.length - 1, index));
+        pendingTarget = activeIndex;
         track.style.setProperty('--active', activeIndex);
         cards.forEach((card, i) => {
           const dist = Math.abs(i - activeIndex);
@@ -2638,15 +2642,30 @@
         });
       }
 
+      function commitActive(index) {
+        if (index !== activeIndex) setActive(index);
+      }
+
+      function requestActive(index) {
+        if (index === pendingTarget) return;
+        pendingTarget = index;
+        clearTimeout(settleTimer);
+        settleTimer = setTimeout(() => commitActive(pendingTarget), SETTLE_MS);
+      }
+
       function updateFromMouse(clientX) {
         const rect = carousel.getBoundingClientRect();
         const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
         const target = Math.round(ratio * (cards.length - 1));
-        if (target !== activeIndex) setActive(target);
+        requestActive(target);
       }
 
       carousel.addEventListener('mousemove', (e) => updateFromMouse(e.clientX));
       carousel.addEventListener('mouseenter', (e) => updateFromMouse(e.clientX));
+      carousel.addEventListener('mouseleave', () => {
+        clearTimeout(settleTimer);
+        pendingTarget = activeIndex;
+      });
       carousel.addEventListener('touchmove', (e) => {
         if (e.touches.length) updateFromMouse(e.touches[0].clientX);
       }, { passive: true });
