@@ -848,13 +848,17 @@
 
     /* Notebook about section */
     .notebook-outer {
-      background: linear-gradient(145deg, #C41E3A 0%, #9A132A 100%);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255,255,255,0.14) 0%, transparent 22%),
+        radial-gradient(circle at 82% 82%, rgba(0,0,0,0.22) 0%, transparent 28%),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06) 0%, transparent 55%),
+        linear-gradient(145deg, var(--klein) 0%, #001A5C 100%);
       border-radius: 28px;
       padding: clamp(1rem, 3.6vw, 2.5rem);
       box-shadow:
-        0 28px 70px rgba(0,0,0,0.18),
-        inset 0 0 0 1px rgba(255,255,255,0.08),
-        inset 0 1px 0 rgba(255,255,255,0.12);
+        0 28px 70px rgba(0,47,167,0.22),
+        inset 0 0 0 1px rgba(255,255,255,0.10),
+        inset 0 1px 0 rgba(255,255,255,0.14);
       position: relative;
     }
     .notebook-inner {
@@ -995,11 +999,11 @@
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: #C41E3A;
+      background: var(--klein);
       box-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
     .notebook-sticky h4 {
-      color: #C41E3A;
+      color: var(--klein);
       font-weight: 900;
       margin-bottom: 0.75rem;
       font-size: 1rem;
@@ -1010,7 +1014,7 @@
       margin: 0;
       font-size: 0.85rem;
       line-height: 1.7;
-      color: #444;
+      color: var(--klein);
     }
     .notebook-sticky li {
       position: relative;
@@ -1020,7 +1024,7 @@
       content: "•";
       position: absolute;
       left: 0;
-      color: #C41E3A;
+      color: var(--klein);
       font-weight: 900;
     }
     .notebook-pills {
@@ -1034,8 +1038,8 @@
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      border: 1.5px solid #C41E3A;
-      color: #C41E3A;
+      border: 1.5px solid var(--klein);
+      color: var(--klein);
       background: #fff;
       padding: 0.35rem 0.95rem;
       border-radius: 999px;
@@ -1045,7 +1049,7 @@
       text-decoration: none;
     }
     .notebook-pill:hover {
-      background: #C41E3A;
+      background: var(--klein);
       color: #fff;
       transform: translateY(-2px);
     }
@@ -1058,13 +1062,13 @@
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      background: #C41E3A;
+      background: var(--klein);
       color: #fff;
       padding: 0.45rem 1rem;
       border-radius: 999px;
       font-weight: 900;
       font-size: 1.1rem;
-      box-shadow: 0 6px 16px rgba(196,30,58,0.22);
+      box-shadow: 0 6px 16px rgba(0,47,167,0.22);
     }
     .notebook-intro {
       margin-top: 1.1rem;
@@ -1073,7 +1077,7 @@
       font-size: 1.05rem;
     }
     .notebook-highlight {
-      color: #C41E3A;
+      color: var(--klein);
       font-weight: 800;
     }
     .notebook-awards {
@@ -1081,7 +1085,7 @@
       width: 100%;
     }
     .notebook-awards h4 {
-      color: #C41E3A;
+      color: var(--klein);
       font-weight: 900;
       margin-bottom: 0.75rem;
       display: inline-flex;
@@ -1105,23 +1109,24 @@
       position: absolute;
       left: 0;
       top: 0.1rem;
-      color: #C41E3A;
+      color: var(--klein);
       font-size: 0.7rem;
     }
     .notebook-sticker {
       position: absolute;
       pointer-events: none;
-      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
+      opacity: 0.45;
     }
     .notebook-sticker svg {
       width: 100%;
       height: 100%;
       display: block;
+      filter: drop-shadow(0 2px 3px rgba(0,47,167,0.12));
     }
-    .notebook-sticker.camera { top: 1.25rem; right: 1.25rem; width: 36px; height: 36px; color: #888; }
-    .notebook-sticker.flower { top: 42%; left: -0.75rem; width: 32px; height: 32px; color: #F4A0B0; }
-    .notebook-sticker.star { bottom: 2rem; right: 1.5rem; width: 42px; height: 42px; color: #F9D71C; }
-    .notebook-sticker.avatar { bottom: 1.5rem; right: 1rem; width: 64px; height: 64px; color: #C41E3A; opacity: 0.18; }
+    .notebook-sticker.camera { top: 1.25rem; right: 1.25rem; width: 36px; height: 36px; color: var(--klein); }
+    .notebook-sticker.flower { top: 42%; left: -0.75rem; width: 32px; height: 32px; color: #7EC8E3; }
+    .notebook-sticker.star { bottom: 2rem; right: 1.5rem; width: 42px; height: 42px; color: #7EC8E3; }
+    .notebook-sticker.avatar { bottom: 1.5rem; right: 1rem; width: 64px; height: 64px; color: var(--klein); opacity: 0.18; }
     @media (max-width: 767px) {
       .notebook-sticker.flower { display: none; }
       .notebook-sticker.avatar { width: 48px; height: 48px; }
