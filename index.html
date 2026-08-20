@@ -1139,11 +1139,23 @@
     .folder-section {
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
       overflow: visible;
       padding: 2rem 1rem;
+      gap: 1.5rem;
+    }
+    .folder-section-title {
+      font-size: clamp(2rem, 7vw, 3.4rem);
+      font-weight: 900;
+      color: #002FA7;
+      letter-spacing: 0.06em;
+      text-align: center;
+      text-shadow: 0 2px 0 rgba(0,47,167,0.08);
+      margin: 0;
+      padding: 0 1rem;
     }
     .folder-wrapper {
       animation: folder-breathe 4s ease-in-out infinite;
@@ -1271,6 +1283,35 @@
       box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
       pointer-events: none;
     }
+    .folder-card-title {
+      position: absolute;
+      left: 50%;
+      bottom: -8px;
+      transform: translateX(-50%) translateY(0);
+      width: max-content;
+      max-width: calc(var(--w) + 40px);
+      padding: 6px 12px;
+      background: rgba(255,255,255,0.95);
+      border-radius: 999px;
+      box-shadow: 0 4px 14px rgba(0,47,167,0.16);
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #002FA7;
+      text-align: center;
+      letter-spacing: 0.02em;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 11;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .folder-stage:hover .folder-card:hover .folder-card-title,
+    .folder-stage.is-open .folder-card:hover .folder-card-title {
+      opacity: 1;
+      transform: translateX(-50%) translateY(28px) scale(1.05);
+    }
     .folder-card:nth-child(1) {
       --w: 132px; --h: 182px;
       --default-y: -30px; --default-angle: 0deg;
@@ -1305,16 +1346,16 @@
       transform: translateY(var(--hover-y)) rotate(var(--hover-angle));
     }
     .folder-stage:hover .folder-card:hover {
-      transform: translateY(calc(var(--hover-y) - 14px)) rotate(var(--hover-angle)) scale(1.08);
-      box-shadow: 0 22px 44px rgba(0,0,0,0.22);
+      transform: translateY(calc(var(--hover-y) - 28px)) rotate(var(--hover-angle)) scale(1.18);
+      box-shadow: 0 28px 54px rgba(0,0,0,0.26);
       z-index: 10;
     }
     .folder-stage.is-open .folder-card {
       transform: translateY(var(--hover-y)) rotate(var(--hover-angle));
     }
     .folder-stage.is-open .folder-card:hover {
-      transform: translateY(calc(var(--hover-y) - 14px)) rotate(var(--hover-angle)) scale(1.08);
-      box-shadow: 0 22px 44px rgba(0,0,0,0.22);
+      transform: translateY(calc(var(--hover-y) - 28px)) rotate(var(--hover-angle)) scale(1.18);
+      box-shadow: 0 28px 54px rgba(0,0,0,0.26);
       z-index: 10;
     }
     .folder-arrow {
@@ -2505,6 +2546,7 @@
 
       <!-- Design / 平面作品 -->
       <div class="folder-section reveal">
+        <h2 class="folder-section-title">平面作品</h2>
         <div class="folder-wrapper">
           <div class="folder-stage" aria-label="平面作品文件夹，悬停展开">
             <div class="folder-shadow" aria-hidden="true"></div>
@@ -2513,21 +2555,27 @@
             <div class="folder-cards">
               <div class="folder-card project-card" data-project-id="design1" role="button" tabindex="0" aria-label="第五届重庆先锋电影展">
                 <img src="images/design1.png" alt="第五届重庆先锋电影展" loading="lazy" />
+                <span class="folder-card-title">第五届重庆先锋电影展</span>
               </div>
               <div class="folder-card project-card" data-project-id="design2" role="button" tabindex="0" aria-label="重庆大学青年志愿者协会">
                 <img src="images/design2.png" alt="重庆大学青年志愿者协会" loading="lazy" />
+                <span class="folder-card-title">重庆大学青年志愿者协会</span>
               </div>
               <div class="folder-card project-card" data-project-id="design3" role="button" tabindex="0" aria-label="吉祥物小青鱼 IP 设计">
                 <img src="images/ai/ip/xiaqingyu/xiaqingyu-cover.png" alt="吉祥物小青鱼 IP 设计" loading="lazy" />
+                <span class="folder-card-title">吉祥物「小青鱼」IP 设计</span>
               </div>
               <div class="folder-card project-card" data-project-id="design4" role="button" tabindex="0" aria-label="互联网加国赛 PPT 美化">
                 <img src="images/design4.png" alt="互联网加国赛 PPT 美化" loading="lazy" />
+                <span class="folder-card-title">「互联网+」国赛 PPT 美化</span>
               </div>
               <div class="folder-card project-card" data-project-id="design3" role="button" tabindex="0" aria-label="小青鱼 IP 延展设计">
                 <img src="images/ai/ip/xiaqingyu/xiaqingyu-2.png" alt="小青鱼 IP 延展设计" loading="lazy" />
+                <span class="folder-card-title">小青鱼 IP 延展设计</span>
               </div>
               <div class="folder-card project-card" data-project-id="design3" role="button" tabindex="0" aria-label="小青鱼系列文创">
                 <img src="images/ai/ip/xiaqingyu/xiaqingyu-5.png" alt="小青鱼系列文创" loading="lazy" />
+                <span class="folder-card-title">小青鱼系列文创</span>
               </div>
             </div>
 
