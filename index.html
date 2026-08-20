@@ -1310,37 +1310,37 @@
     .folder-stage:hover .folder-card:hover .folder-card-title,
     .folder-stage.is-open .folder-card:hover .folder-card-title {
       opacity: 1;
-      transform: translateX(-50%) translateY(28px) scale(1.05);
+      transform: translateX(-50%) translateY(28px) scale(1.05) rotate(calc(var(--hover-angle) * -1));
     }
     .folder-card:nth-child(1) {
-      --w: 132px; --h: 182px;
-      --default-y: -30px; --default-angle: 0deg;
-      --hover-y: -172px; --hover-angle: 0deg;
+      --w: 126px; --h: 126px;
+      --default-y: -8px; --default-angle: 0deg;
+      --hover-y: -108px; --hover-angle: -52deg;
     }
     .folder-card:nth-child(2) {
-      --w: 142px; --h: 142px;
-      --default-y: -22px; --default-angle: -10deg;
-      --hover-y: -132px; --hover-angle: -22deg;
+      --w: 136px; --h: 136px;
+      --default-y: -9px; --default-angle: 0deg;
+      --hover-y: -170px; --hover-angle: -32deg;
     }
     .folder-card:nth-child(3) {
       --w: 122px; --h: 182px;
-      --default-y: -24px; --default-angle: 9deg;
-      --hover-y: -134px; --hover-angle: 21deg;
+      --default-y: -10px; --default-angle: 0deg;
+      --hover-y: -230px; --hover-angle: -12deg;
     }
     .folder-card:nth-child(4) {
-      --w: 136px; --h: 136px;
-      --default-y: -16px; --default-angle: -19deg;
-      --hover-y: -96px; --hover-angle: -35deg;
+      --w: 132px; --h: 182px;
+      --default-y: -10px; --default-angle: 0deg;
+      --hover-y: -230px; --hover-angle: 12deg;
     }
     .folder-card:nth-child(5) {
-      --w: 116px; --h: 176px;
-      --default-y: -18px; --default-angle: 17deg;
-      --hover-y: -100px; --hover-angle: 34deg;
+      --w: 142px; --h: 142px;
+      --default-y: -9px; --default-angle: 0deg;
+      --hover-y: -170px; --hover-angle: 32deg;
     }
     .folder-card:nth-child(6) {
-      --w: 126px; --h: 126px;
-      --default-y: -12px; --default-angle: -27deg;
-      --hover-y: -62px; --hover-angle: -47deg;
+      --w: 116px; --h: 176px;
+      --default-y: -8px; --default-angle: 0deg;
+      --hover-y: -108px; --hover-angle: 52deg;
     }
     .folder-stage:hover .folder-card {
       transform: translateY(var(--hover-y)) rotate(var(--hover-angle));
