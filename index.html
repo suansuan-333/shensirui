@@ -596,6 +596,46 @@
       height: 1px;
       background: linear-gradient(90deg, transparent, rgba(0, 47, 167, 0.2), transparent);
     }
+    .directory-bubble {
+      position: relative;
+      background: #fff;
+      border: 1px solid var(--klein);
+      padding: 2rem 2.25rem;
+      box-shadow: 0 24px 60px rgba(0, 47, 167, 0.12);
+    }
+    .directory-bubble::before,
+    .directory-bubble::after {
+      content: "";
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-color: transparent;
+      pointer-events: none;
+    }
+    .directory-bubble::before {
+      border-width: 18px;
+      border-left-color: var(--klein);
+      border-right-width: 0;
+      transform: translateY(-50%);
+    }
+    .directory-bubble::after {
+      border-width: 16px;
+      border-left-color: #fff;
+      border-right-width: 0;
+      left: calc(100% - 1px);
+      transform: translateY(-50%);
+    }
+    .directory-bubble-title {
+      margin-bottom: 1.75rem;
+    }
+    .directory-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
     .directory-portrait {
       position: relative;
       border: 1px solid var(--klein);
@@ -635,13 +675,15 @@
       text-align: right;
     }
     .directory-btn {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      gap: 0.5rem;
+      justify-content: space-between;
+      gap: 0.75rem;
+      width: 100%;
       background: var(--klein);
       color: #fff;
       border: 1px solid var(--klein);
-      padding: 0.85rem 1.5rem;
+      padding: 1rem 1.25rem;
       font-size: 0.95rem;
       font-weight: 900;
       letter-spacing: 0.04em;
@@ -653,6 +695,12 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(0, 47, 167, 0.12);
     }
+    .directory-letter {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-weight: 900;
+      opacity: 0.85;
+      min-width: 1.75rem;
+    }
     .directory-btn::after {
       content: "→";
       transition: transform 0.25s ease;
@@ -661,9 +709,13 @@
       transform: translateX(3px);
     }
     @media (max-width: 768px) {
+      .directory-bubble::before,
+      .directory-bubble::after { display: none; }
+      .directory-bubble { padding: 1.5rem; }
+      .directory-bubble-title { margin-bottom: 1.25rem; }
       .directory-portrait img { aspect-ratio: 3 / 4; }
       .directory-btn {
-        padding: 0.75rem 1.15rem;
+        padding: 0.85rem 1rem;
         font-size: 0.9rem;
       }
     }
@@ -1475,13 +1527,15 @@
     <div class="max-w-7xl mx-auto px-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div class="reveal order-2 md:order-1">
-          <h2 class="text-4xl md:text-5xl font-black text-ink mb-10 leading-tight">你想从哪里开始了解我？</h2>
-          <div class="flex flex-wrap gap-4">
-            <a href="#about" class="directory-btn">自我介绍</a>
-            <a href="#experience" class="directory-btn">实习经历</a>
-            <a href="#social" class="directory-btn">自媒体运营</a>
-            <a href="#campus" class="directory-btn">校园经历</a>
-            <a href="#works" class="directory-btn">作品展示</a>
+          <div class="directory-bubble">
+            <h2 class="directory-bubble-title text-3xl md:text-4xl font-black text-ink leading-tight">你想从哪里开始了解我？</h2>
+            <div class="directory-options">
+              <a href="#about" class="directory-btn"><span class="directory-letter">A.</span> 自我介绍</a>
+              <a href="#experience" class="directory-btn"><span class="directory-letter">B.</span> 实习经历</a>
+              <a href="#social" class="directory-btn"><span class="directory-letter">C.</span> 自媒体运营</a>
+              <a href="#campus" class="directory-btn"><span class="directory-letter">D.</span> 校园经历</a>
+              <a href="#works" class="directory-btn"><span class="directory-letter">E.</span> 作品展示</a>
+            </div>
           </div>
         </div>
         <div class="reveal order-1 md:order-2">
