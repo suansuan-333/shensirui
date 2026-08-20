@@ -1135,6 +1135,240 @@
       .notebook-sticker.avatar { width: 48px; height: 48px; }
     }
 
+    /* Graphic works — interactive Klein-blue folder */
+    .folder-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: visible;
+      padding: 2rem 1rem;
+    }
+    .folder-wrapper {
+      animation: folder-breathe 4s ease-in-out infinite;
+      will-change: transform;
+    }
+    @keyframes folder-breathe {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .folder-stage {
+      position: relative;
+      width: clamp(320px, 78vw, 480px);
+      height: clamp(260px, 56vw, 360px);
+      --folder-scale: 1;
+      transform: scale(var(--folder-scale));
+      transform-origin: center center;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @media (max-width: 640px) {
+      .folder-stage { --folder-scale: 0.78; }
+    }
+    .folder-shadow {
+      position: absolute;
+      bottom: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 84%;
+      height: 42px;
+      background: radial-gradient(ellipse at center, rgba(0,47,167,0.22) 0%, transparent 72%);
+      filter: blur(14px);
+      border-radius: 50%;
+      z-index: 0;
+      opacity: 0.85;
+    }
+    .folder-back {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, #003DCC 0%, #002FA7 45%, #001E6E 100%);
+      border-radius: 28px;
+      box-shadow:
+        0 24px 60px rgba(0,47,167,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.18),
+        inset 0 -12px 30px rgba(0,0,0,0.12);
+      z-index: 1;
+    }
+    .folder-back::before {
+      content: "";
+      position: absolute;
+      top: -34px;
+      left: 34px;
+      width: 130px;
+      height: 56px;
+      background: linear-gradient(145deg, #003DCC, #00258A);
+      border-radius: 18px 18px 0 0;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.16);
+    }
+    .folder-front {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 76%;
+      background: linear-gradient(
+        180deg,
+        rgba(0,47,167,0.38) 0%,
+        rgba(0,47,167,0.58) 55%,
+        rgba(0,47,167,0.66) 100%
+      );
+      backdrop-filter: blur(14px) saturate(125%);
+      -webkit-backdrop-filter: blur(14px) saturate(125%);
+      border-radius: 0 0 28px 28px;
+      border-top: 1px solid rgba(255,255,255,0.22);
+      border-left: 1px solid rgba(255,255,255,0.12);
+      border-right: 1px solid rgba(255,255,255,0.12);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.28),
+        inset 0 -18px 36px rgba(0,0,0,0.08);
+      z-index: 3;
+      overflow: hidden;
+    }
+    .folder-front::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 18% 12%, rgba(255,255,255,0.18) 0%, transparent 32%);
+      pointer-events: none;
+    }
+    .folder-cards {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .folder-card {
+      position: absolute;
+      left: 50%;
+      bottom: 38px;
+      width: var(--w);
+      height: var(--h);
+      margin-left: calc(var(--w) / -2);
+      border-radius: 12px;
+      background: #fff;
+      padding: 5px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      transform: translateY(var(--default-y)) rotate(var(--default-angle));
+      transform-origin: bottom center;
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, z-index 0s;
+      pointer-events: auto;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .folder-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+      background: #f0f0f0;
+    }
+    .folder-card::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 8px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+      pointer-events: none;
+    }
+    .folder-card:nth-child(1) {
+      --w: 132px; --h: 182px;
+      --default-y: -30px; --default-angle: 0deg;
+      --hover-y: -172px; --hover-angle: 0deg;
+    }
+    .folder-card:nth-child(2) {
+      --w: 142px; --h: 142px;
+      --default-y: -22px; --default-angle: -10deg;
+      --hover-y: -132px; --hover-angle: -22deg;
+    }
+    .folder-card:nth-child(3) {
+      --w: 122px; --h: 182px;
+      --default-y: -24px; --default-angle: 9deg;
+      --hover-y: -134px; --hover-angle: 21deg;
+    }
+    .folder-card:nth-child(4) {
+      --w: 136px; --h: 136px;
+      --default-y: -16px; --default-angle: -19deg;
+      --hover-y: -96px; --hover-angle: -35deg;
+    }
+    .folder-card:nth-child(5) {
+      --w: 116px; --h: 176px;
+      --default-y: -18px; --default-angle: 17deg;
+      --hover-y: -100px; --hover-angle: 34deg;
+    }
+    .folder-card:nth-child(6) {
+      --w: 126px; --h: 126px;
+      --default-y: -12px; --default-angle: -27deg;
+      --hover-y: -62px; --hover-angle: -47deg;
+    }
+    .folder-stage:hover .folder-card {
+      transform: translateY(var(--hover-y)) rotate(var(--hover-angle));
+    }
+    .folder-stage:hover .folder-card:hover {
+      transform: translateY(calc(var(--hover-y) - 14px)) rotate(var(--hover-angle)) scale(1.08);
+      box-shadow: 0 22px 44px rgba(0,0,0,0.22);
+      z-index: 10;
+    }
+    .folder-stage.is-open .folder-card {
+      transform: translateY(var(--hover-y)) rotate(var(--hover-angle));
+    }
+    .folder-stage.is-open .folder-card:hover {
+      transform: translateY(calc(var(--hover-y) - 14px)) rotate(var(--hover-angle)) scale(1.08);
+      box-shadow: 0 22px 44px rgba(0,0,0,0.22);
+      z-index: 10;
+    }
+    .folder-arrow {
+      position: absolute;
+      right: 22px;
+      bottom: 22px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      z-index: 4;
+      animation: arrow-pulse 2.2s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .folder-arrow svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2.2;
+    }
+    @keyframes arrow-pulse {
+      0%, 100% { transform: translateX(0); opacity: 0.75; }
+      50% { transform: translateX(6px); opacity: 1; }
+    }
+    .folder-label {
+      position: absolute;
+      left: 26px;
+      bottom: 24px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 0.04em;
+      z-index: 4;
+      pointer-events: none;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.12);
+    }
+    .folder-stickers {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+    }
+    .folder-sticker {
+      position: absolute;
+      opacity: 0.9;
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.12));
+    }
+    .folder-sticker.smiley { top: 24%; left: 10%; width: 34px; height: 34px; color: #FFE66D; }
+    .folder-sticker.star { top: 16%; right: 14%; width: 26px; height: 26px; color: rgba(255,255,255,0.85); }
+
     /* Tool badges with inline logos */
     .tool-badge {
       display: inline-flex;
@@ -2269,57 +2503,48 @@
         </div>
       </div>
 
-      <!-- Design -->
-      <div>
-        <div class="flex items-center gap-4 mb-8 reveal">
-          <div class="w-10 h-10 border-2 border-klein text-klein flex items-center justify-center font-black">D</div>
-          <h3 class="text-2xl font-black">设计 / 美工</h3>
-        </div>
-        <div class="video-carousel reveal">
-          <div class="video-carousel-track">
-            <div class="video-carousel-card project-card" data-project-id="design1">
-              <div class="video-carousel-media">
-                <img src="images/design1.png" alt="重庆先锋电影展" />
+      <!-- Design / 平面作品 -->
+      <div class="folder-section reveal">
+        <div class="folder-wrapper">
+          <div class="folder-stage" aria-label="平面作品文件夹，悬停展开">
+            <div class="folder-shadow" aria-hidden="true"></div>
+            <div class="folder-back" aria-hidden="true"></div>
+
+            <div class="folder-cards">
+              <div class="folder-card project-card" data-project-id="design1" role="button" tabindex="0" aria-label="第五届重庆先锋电影展">
+                <img src="images/design1.png" alt="第五届重庆先锋电影展" loading="lazy" />
               </div>
-              <div class="video-carousel-info">
-                <span class="number-index">D.01</span>
-                <h4>第五届重庆先锋电影展</h4>
-                <p class="meta">视觉设计 / 物料宣发</p>
-                <p class="desc">把控影展主视觉与上百套物料整体设计。</p>
+              <div class="folder-card project-card" data-project-id="design2" role="button" tabindex="0" aria-label="重庆大学青年志愿者协会">
+                <img src="images/design2.png" alt="重庆大学青年志愿者协会" loading="lazy" />
               </div>
-            </div>
-            <div class="video-carousel-card project-card" data-project-id="design2">
-              <div class="video-carousel-media">
-                <img src="images/design2.png" alt="青志设计" />
+              <div class="folder-card project-card" data-project-id="design3" role="button" tabindex="0" aria-label="吉祥物小青鱼 IP 设计">
+                <img src="images/ai/ip/xiaqingyu/xiaqingyu-cover.png" alt="吉祥物小青鱼 IP 设计" loading="lazy" />
               </div>
-              <div class="video-carousel-info">
-                <span class="number-index">D.02</span>
-                <h4>重庆大学青年志愿者协会</h4>
-                <p class="meta">活动海报 / 宣发物料</p>
-                <p class="desc">统筹志愿活动整体宣传工作与视觉设计课程。</p>
+              <div class="folder-card project-card" data-project-id="design4" role="button" tabindex="0" aria-label="互联网加国赛 PPT 美化">
+                <img src="images/design4.png" alt="互联网加国赛 PPT 美化" loading="lazy" />
+              </div>
+              <div class="folder-card project-card" data-project-id="design3" role="button" tabindex="0" aria-label="小青鱼 IP 延展设计">
+                <img src="images/ai/ip/xiaqingyu/xiaqingyu-2.png" alt="小青鱼 IP 延展设计" loading="lazy" />
+              </div>
+              <div class="folder-card project-card" data-project-id="design3" role="button" tabindex="0" aria-label="小青鱼系列文创">
+                <img src="images/ai/ip/xiaqingyu/xiaqingyu-5.png" alt="小青鱼系列文创" loading="lazy" />
               </div>
             </div>
-            <div class="video-carousel-card project-card" data-project-id="design3">
-              <div class="video-carousel-media">
-                <img src="images/ai/ip/xiaqingyu/xiaqingyu-cover.png" alt="小青鱼IP" />
+
+            <div class="folder-front" aria-hidden="true"></div>
+
+            <div class="folder-stickers" aria-hidden="true">
+              <div class="folder-sticker smiley">
+                <svg viewBox="0 0 36 36" fill="currentColor"><circle cx="18" cy="18" r="17"/><circle cx="13" cy="15" r="2" fill="#333"/><circle cx="23" cy="15" r="2" fill="#333"/><path d="M12 23c2 3 10 3 12 0" stroke="#333" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>
               </div>
-              <div class="video-carousel-info">
-                <span class="number-index">D.03</span>
-                <h4>吉祥物「小青鱼」IP 设计</h4>
-                <p class="meta">吉祥物 / 表情包 / 文创</p>
-                <p class="desc">完成吉祥物形象、衍生表情包与系列文创设计。</p>
+              <div class="folder-sticker star">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/></svg>
               </div>
             </div>
-            <div class="video-carousel-card project-card" data-project-id="design4">
-              <div class="video-carousel-media">
-                <img src="images/design4.png" alt="「互联网+」创新创业大赛国赛PPT美化" />
-              </div>
-              <div class="video-carousel-info">
-                <span class="number-index">D.04</span>
-                <h4>「互联网+」国赛 PPT 美化</h4>
-                <p class="meta">PPT 美化 / 宣传包装</p>
-                <p class="desc">团队核心成员，负责视觉包装与宣传视频。</p>
-              </div>
+
+            <div class="folder-label">平面作品</div>
+            <div class="folder-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </div>
           </div>
         </div>
@@ -3175,7 +3400,25 @@
         if (e.target.closest('a')) return;
         openModal(card.dataset.projectId);
       });
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openModal(card.dataset.projectId);
+        }
+      });
     });
+
+    // Folder toggle for touch devices (no hover)
+    (function initFolderToggle() {
+      const folderStage = document.querySelector('.folder-stage');
+      if (!folderStage) return;
+      const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+      if (!isCoarse) return;
+      folderStage.addEventListener('click', (e) => {
+        if (e.target.closest('.folder-card')) return;
+        folderStage.classList.toggle('is-open');
+      });
+    })();
 
     document.querySelectorAll('.directory-option').forEach(btn => {
       btn.addEventListener('click', (e) => {
