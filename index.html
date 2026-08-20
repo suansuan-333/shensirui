@@ -581,6 +581,93 @@
       .video-carousel-info .desc { font-size: 0.75rem; -webkit-line-clamp: 3; }
     }
 
+    /* Directory index section */
+    .directory-section {
+      background: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+    .directory-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 47, 167, 0.2), transparent);
+    }
+    .directory-portrait {
+      position: relative;
+      border: 1px solid var(--klein);
+      background: #fff;
+      padding: 0.75rem;
+      box-shadow: 0 24px 60px rgba(0, 47, 167, 0.12);
+    }
+    .directory-portrait::before {
+      content: "";
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      right: -0.75rem;
+      bottom: -0.75rem;
+      border: 1px solid rgba(0, 47, 167, 0.18);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .directory-portrait img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+    }
+    .directory-portrait-caption {
+      position: absolute;
+      bottom: 0.75rem;
+      left: 0.75rem;
+      right: 0.75rem;
+      background: var(--klein);
+      color: #fff;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.75rem;
+      text-align: right;
+    }
+    .directory-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--klein);
+      color: #fff;
+      border: 1px solid var(--klein);
+      padding: 0.85rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      transition: background 0.35s ease, color 0.35s ease, transform 0.25s ease, box-shadow 0.35s ease;
+    }
+    .directory-btn:hover {
+      background: #fff;
+      color: var(--klein);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 47, 167, 0.12);
+    }
+    .directory-btn::after {
+      content: "→";
+      transition: transform 0.25s ease;
+    }
+    .directory-btn:hover::after {
+      transform: translateX(3px);
+    }
+    @media (max-width: 768px) {
+      .directory-portrait img { aspect-ratio: 3 / 4; }
+      .directory-btn {
+        padding: 0.75rem 1.15rem;
+        font-size: 0.9rem;
+      }
+    }
+
     /* Modal project sections */
     .modal-sections {
       display: grid;
@@ -1380,6 +1467,30 @@
       <div class="drag-marker m1">SEC.01 → SEC.02</div>
       <div class="drag-marker m2">SCROLL</div>
       <div class="drag-marker m3">01 / 02</div>
+    </div>
+  </section>
+
+  <!-- Directory Index -->
+  <section id="directory" class="directory-section py-28 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="reveal order-2 md:order-1">
+          <h2 class="text-4xl md:text-5xl font-black text-ink mb-10 leading-tight">你想从哪里开始了解我？</h2>
+          <div class="flex flex-wrap gap-4">
+            <a href="#about" class="directory-btn">自我介绍</a>
+            <a href="#experience" class="directory-btn">实习经历</a>
+            <a href="#social" class="directory-btn">自媒体运营</a>
+            <a href="#campus" class="directory-btn">校园经历</a>
+            <a href="#works" class="directory-btn">作品展示</a>
+          </div>
+        </div>
+        <div class="reveal order-1 md:order-2">
+          <div class="directory-portrait">
+            <img src="images/hero.png" alt="沈思睿" />
+            <div class="directory-portrait-caption">FIG.00 — Shen Sirui</div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -2809,6 +2920,14 @@
       card.addEventListener('click', (e) => {
         if (e.target.closest('a')) return;
         openModal(card.dataset.projectId);
+      });
+    });
+
+    document.querySelectorAll('.directory-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(btn.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
   </script>
