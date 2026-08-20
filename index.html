@@ -1137,25 +1137,16 @@
 
     /* Graphic works — interactive Klein-blue folder */
     .folder-section {
-      min-height: 100vh;
+      min-height: 860px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      align-items: flex-end;
       justify-content: center;
       position: relative;
       overflow: visible;
-      padding: 2rem 1rem;
-      gap: 1.5rem;
+      padding: 0 1rem 2rem;
     }
-    .folder-section-title {
-      font-size: clamp(2rem, 7vw, 3.4rem);
-      font-weight: 900;
-      color: #002FA7;
-      letter-spacing: 0.06em;
-      text-align: center;
-      text-shadow: 0 2px 0 rgba(0,47,167,0.08);
-      margin: 0;
-      padding: 0 1rem;
+    @media (max-width: 640px) {
+      .folder-section { min-height: 660px; padding-bottom: 1rem; }
     }
     .folder-wrapper {
       animation: folder-breathe 4s ease-in-out infinite;
@@ -1248,6 +1239,11 @@
       inset: 0;
       z-index: 2;
       pointer-events: none;
+      transition: z-index 0s;
+    }
+    .folder-stage:hover .folder-cards,
+    .folder-stage.is-open .folder-cards {
+      z-index: 4;
     }
     .folder-card {
       position: absolute;
@@ -1310,51 +1306,45 @@
     .folder-stage:hover .folder-card:hover .folder-card-title,
     .folder-stage.is-open .folder-card:hover .folder-card-title {
       opacity: 1;
-      transform: translateX(-50%) translateY(28px) scale(1.05) rotate(calc(var(--hover-angle) * -1));
+      transform: translateX(-50%) translateY(48px) scale(1.05) rotate(calc(var(--hover-angle) * -1));
     }
     .folder-card:nth-child(1) {
-      --w: 126px; --h: 126px;
+      --w: 130px; --h: 130px;
       --default-y: -8px; --default-angle: 0deg;
-      --hover-y: -108px; --hover-angle: -52deg;
+      --hover-x: -280px; --hover-y: -300px; --hover-angle: -58deg;
     }
     .folder-card:nth-child(2) {
-      --w: 136px; --h: 136px;
-      --default-y: -9px; --default-angle: 0deg;
-      --hover-y: -170px; --hover-angle: -32deg;
-    }
-    .folder-card:nth-child(3) {
-      --w: 122px; --h: 182px;
-      --default-y: -10px; --default-angle: 0deg;
-      --hover-y: -230px; --hover-angle: -12deg;
-    }
-    .folder-card:nth-child(4) {
-      --w: 132px; --h: 182px;
-      --default-y: -10px; --default-angle: 0deg;
-      --hover-y: -230px; --hover-angle: 12deg;
-    }
-    .folder-card:nth-child(5) {
       --w: 142px; --h: 142px;
       --default-y: -9px; --default-angle: 0deg;
-      --hover-y: -170px; --hover-angle: 32deg;
+      --hover-x: -175px; --hover-y: -390px; --hover-angle: -35deg;
+    }
+    .folder-card:nth-child(3) {
+      --w: 128px; --h: 196px;
+      --default-y: -10px; --default-angle: 0deg;
+      --hover-x: -58px; --hover-y: -470px; --hover-angle: -14deg;
+    }
+    .folder-card:nth-child(4) {
+      --w: 138px; --h: 196px;
+      --default-y: -10px; --default-angle: 0deg;
+      --hover-x: 58px; --hover-y: -470px; --hover-angle: 14deg;
+    }
+    .folder-card:nth-child(5) {
+      --w: 150px; --h: 150px;
+      --default-y: -9px; --default-angle: 0deg;
+      --hover-x: 175px; --hover-y: -390px; --hover-angle: 35deg;
     }
     .folder-card:nth-child(6) {
-      --w: 116px; --h: 176px;
+      --w: 124px; --h: 184px;
       --default-y: -8px; --default-angle: 0deg;
-      --hover-y: -108px; --hover-angle: 52deg;
+      --hover-x: 280px; --hover-y: -300px; --hover-angle: 58deg;
     }
-    .folder-stage:hover .folder-card {
-      transform: translateY(var(--hover-y)) rotate(var(--hover-angle));
-    }
-    .folder-stage:hover .folder-card:hover {
-      transform: translateY(calc(var(--hover-y) - 28px)) rotate(var(--hover-angle)) scale(1.18);
-      box-shadow: 0 28px 54px rgba(0,0,0,0.26);
-      z-index: 10;
-    }
+    .folder-stage:hover .folder-card,
     .folder-stage.is-open .folder-card {
-      transform: translateY(var(--hover-y)) rotate(var(--hover-angle));
+      transform: translateX(var(--hover-x)) translateY(var(--hover-y)) rotate(var(--hover-angle));
     }
+    .folder-stage:hover .folder-card:hover,
     .folder-stage.is-open .folder-card:hover {
-      transform: translateY(calc(var(--hover-y) - 28px)) rotate(var(--hover-angle)) scale(1.18);
+      transform: translateX(var(--hover-x)) translateY(calc(var(--hover-y) - 28px)) rotate(var(--hover-angle)) scale(1.18);
       box-shadow: 0 28px 54px rgba(0,0,0,0.26);
       z-index: 10;
     }
@@ -2545,9 +2535,13 @@
       </div>
 
       <!-- Design / 平面作品 -->
-      <div class="folder-section reveal">
-        <h2 class="folder-section-title">平面作品</h2>
-        <div class="folder-wrapper">
+      <div class="mb-16 reveal">
+        <div class="flex items-center gap-4 mb-6 relative z-10">
+          <div class="w-10 h-10 bg-klein text-white flex items-center justify-center font-black">平</div>
+          <h3 class="text-2xl font-black">平面作品</h3>
+        </div>
+        <div class="folder-section">
+          <div class="folder-wrapper">
           <div class="folder-stage" aria-label="平面作品文件夹，悬停展开">
             <div class="folder-shadow" aria-hidden="true"></div>
             <div class="folder-back" aria-hidden="true"></div>
@@ -2596,6 +2590,7 @@
             </div>
           </div>
         </div>
+      </div>
       </div>
 
       <!-- AI -->
